@@ -8,5 +8,5 @@ Directives for Angular
 ## @doob-ng/ui
 Components and Services around Fomantic-UI for building User Interfaces
 
-## @doobng/editor
+## @doob-ng/editor
 Monaco Editor
