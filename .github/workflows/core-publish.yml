@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - 'projects/core/**'
+      - 'projects/doob-ng/core/**'
 
 jobs:
   build:
