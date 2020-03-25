@@ -1,0 +1,43 @@
+name: Publish @doob-ng/core
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'projects/doob-ng/core/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.org/
+
+      - name: npm install
+        run:  npm install
+
+      - name: build @doob-ng/core
+        run:  ng build @doob-ng/core --prod
+
+      - name: publish
+        run:  npm publish dist/doob-ng/core --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
