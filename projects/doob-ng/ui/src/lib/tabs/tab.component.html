@@ -1,0 +1,6 @@
+
+<div *ngIf="(visible$ | async) || mode != 'remove'" style="flex-grow: 1">
+    <ng-content *ngIf="!content"></ng-content>
+    <ng-container *ngIf="content" [ngTemplateOutlet]="content"></ng-container>
+</div>
+

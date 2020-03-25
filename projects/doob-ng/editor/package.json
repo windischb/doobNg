@@ -1,0 +1,10 @@
+{
+  "name": "@doob-ng/editor",
+  "version": "0.0.4",
+  "peerDependencies": {
+    "@angular/common": "^9.0.7",
+    "@angular/core": "^9.0.7",
+    "tslib": "^1.10.0",
+    "monaco-editor": "^0.20.0"
+  }
+}

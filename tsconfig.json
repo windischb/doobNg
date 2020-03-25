@@ -14,7 +14,21 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@doob-ng/core": [
+        "dist/doob-ng/core/doob-ng-core",
+        "dist/doob-ng/core"
+      ],
+      "@doob-ng/ui": [
+        "dist/doob-ng/ui/doob-ng-ui",
+        "dist/doob-ng/ui"
+      ],
+      "@doob-ng/editor": [
+        "dist/doob-ng/editor/doob-ng-editor",
+        "dist/doob-ng/editor"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

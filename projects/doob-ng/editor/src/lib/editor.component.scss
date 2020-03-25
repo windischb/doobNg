@@ -1,0 +1,14 @@
+
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+::ng-deep textarea.inputarea {
+  border: none !important;
+  padding: 0 !important;
+  width: 0px !important;
+}
+

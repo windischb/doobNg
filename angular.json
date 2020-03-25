@@ -2,5 +2,126 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1, 
   "newProjectRoot": "projects",
-  "projects": {}
+  "projects": {
+    "@doob-ng/core": {
+      "projectType": "library",
+      "root": "projects/doob-ng/core",
+      "sourceRoot": "projects/doob-ng/core/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/doob-ng/core/tsconfig.lib.json",
+            "project": "projects/doob-ng/core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/doob-ng/core/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/doob-ng/core/src/test.ts",
+            "tsConfig": "projects/doob-ng/core/tsconfig.spec.json",
+            "karmaConfig": "projects/doob-ng/core/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/doob-ng/core/tsconfig.lib.json",
+              "projects/doob-ng/core/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@doob-ng/ui": {
+      "projectType": "library",
+      "root": "projects/doob-ng/ui",
+      "sourceRoot": "projects/doob-ng/ui/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/doob-ng/ui/tsconfig.lib.json",
+            "project": "projects/doob-ng/ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/doob-ng/ui/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/doob-ng/ui/src/test.ts",
+            "tsConfig": "projects/doob-ng/ui/tsconfig.spec.json",
+            "karmaConfig": "projects/doob-ng/ui/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/doob-ng/ui/tsconfig.lib.json",
+              "projects/doob-ng/ui/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@doob-ng/editor": {
+      "projectType": "library",
+      "root": "projects/doob-ng/editor",
+      "sourceRoot": "projects/doob-ng/editor/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/doob-ng/editor/tsconfig.lib.json",
+            "project": "projects/doob-ng/editor/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/doob-ng/editor/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/doob-ng/editor/src/test.ts",
+            "tsConfig": "projects/doob-ng/editor/tsconfig.spec.json",
+            "karmaConfig": "projects/doob-ng/editor/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/doob-ng/editor/tsconfig.lib.json",
+              "projects/doob-ng/editor/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }},
+  "defaultProject": "@doob-ng/core"
 }

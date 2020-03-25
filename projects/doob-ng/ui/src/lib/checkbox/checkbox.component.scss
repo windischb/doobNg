@@ -1,0 +1,22 @@
+:host.ui.toggle.checkbox label {
+    padding-left: 3.25rem;;
+}
+
+:host.ui.toggle.checkbox label:before {
+    width: 2.5rem!important;
+    background: rgb(217, 217, 217);
+}
+
+.ui.toggle.checkbox label:hover::before {
+    background-color: inherit;
+}
+
+:host.ui.toggle.checkbox input:checked ~ label:after {
+    left: 1.15rem;
+}
+
+:host.ui.indeterminate.toggle.checkbox input:not([type=radio])~label:after {
+    left: 0.575rem;
+}
+
+

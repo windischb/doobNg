@@ -1,0 +1,14 @@
+<div style="overflow: hidden; display: flex;flex-direction: column; position: relative;flex-grow:1;">
+
+    <div class="ui pointing secondary menu tabs-header" style="margin:0px">
+        <a class="item" *ngFor="let tab of tabs$ | async; let i = index" [class.active]="tab.active" [id]="'tab' + i" (click)="Activate(i)">
+            <i  *ngIf="(tab.icon$ | async); let icon" [class]="icon" class="icon"></i>{{tab.title$ | async}}
+        </a>
+        <div class="indicator" [style.width.px]="IndicatorWidth" [style.left.px]="IndicatorLeft" #indicator></div>
+    </div>
+
+    <div style="flex-grow:1; overflow: hidden; display: flex;flex-direction: column">
+        <ng-content select="doob-tab"></ng-content>
+    </div>
+
+</div>

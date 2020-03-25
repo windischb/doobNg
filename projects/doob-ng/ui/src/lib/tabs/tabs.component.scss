@@ -1,0 +1,38 @@
+:host {
+  display: flex !important;
+  flex-grow: 1;
+}
+
+.show {
+  display: flex !important;
+}
+
+.ui.secondary.pointing.menu .item {
+  border-bottom: none;
+}
+
+.ui.secondary.pointing.menu .active.item {
+  text-shadow: 1px 0 0 black;
+  transition: 0.5s;
+  font-weight: inherit;
+}
+
+.ui.secondary.pointing.menu .active.item i {
+  text-shadow: none;
+}
+
+.indicator {
+  position: absolute;
+  height: 2px;
+  background-color: black;
+  transition: 0.5s;
+  top: 38px;
+}
+
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  -ms-transition: none !important;
+  transition: none !important;
+}
