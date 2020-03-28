@@ -1,16 +1,28 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, RouteComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LeftMenuComponent } from './left-menu/left-menu.component';
+
+import { DoobUIModule } from "@local/ui";
+import { DoobPrismModule } from '@local/prism';
+import { DemoPartComponent } from './shared/components/part/part.component';
+import { DoobEditorModule } from '@local/editor';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LeftMenuComponent,
+    ...RouteComponents,
+    DemoPartComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DoobUIModule,
+    DoobPrismModule,
+    DoobEditorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

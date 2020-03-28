@@ -2,7 +2,7 @@ import { Component, ViewContainerRef } from "@angular/core";
 import { DoobBaseComponent } from './base.component';
 
 @Component({
-    selector: 'doob-dropdown-divider',
+    selector: 'db-dropdown-divider',
     template: '<div> </div>',
     providers: [{ provide: DoobBaseComponent, useExisting: DoobDropdownDividerComponent }],
     host: {

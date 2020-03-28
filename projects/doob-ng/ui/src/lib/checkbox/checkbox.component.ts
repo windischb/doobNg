@@ -1,9 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter, HostBinding, HostListener } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter, HostBinding, HostListener, ElementRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-    selector: 'doob-checkbox',
+    selector: 'db-checkbox',
     templateUrl: './checkbox.component.html',
     styleUrls: ['./checkbox.component.scss'],
     providers: [{
@@ -14,48 +14,68 @@ import { BehaviorSubject } from 'rxjs';
     host: {
         class: 'ui checkbox'
     },
-    changeDetection: ChangeDetectionStrategy.Default
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DoobCheckboxComponent implements ControlValueAccessor, OnInit {
 
     @Input() label: string;
     @Input() name: string;
-    @Input() clickable = true;
-    @Input() disabled: boolean;
-    @Input() mode: "checkbox" | "toggle" = "checkbox"
+    @Input() readonly = false;
 
-    private _checked: boolean = false;
-    private checkedSubject$ = new BehaviorSubject<boolean>(this._checked)
-    checked$ = this.checkedSubject$.asObservable()
+    #checkedSubject$ = new BehaviorSubject(false);
+    checked$ = this.#checkedSubject$.asObservable()
     @Input()
     get checked() {
-        return this._checked;
+        return this.#checkedSubject$.getValue();
     }
 
-    set checked(checked: boolean) {
-        this._checked = !!checked;
-        this.checkedSubject$.next(this._checked);
+    set checked(value: boolean) {
+        this.#checkedSubject$.next(!!value);
     }
 
     @Output() checkedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    @HostBinding('class.toggle') _toggle: boolean;
+    #_disabled: boolean = false;
+    @Input()
+    get disabled() {
+        return this.#_disabled;
+    };
+    set disabled(value: any) {
+        if (value === null || value === undefined || value === false) {
+            this.#_disabled = false
+        } else {
+            this.#_disabled = !!value
+        }
+    }
+
+    @Input()
+    @HostBinding('class.toggle') toggle: boolean;
+
     @HostBinding('class.cursor-pointer') _cursorpointer: boolean;
     @HostBinding('class.cursor-default') _cursordefault: boolean;
 
     @HostListener('click', ['$event'])
     clicked($event: MouseEvent) {
-        if (!this.disabled && this.clickable) {
+        if (!this.disabled && !this.readonly) {
             this.checked = !this.checked;
             this.propagateChange(this.checked);
         }
     }
 
-    constructor() { }
+    constructor(private element: ElementRef) {
+
+    }
 
     ngOnInit(): void {
 
-        this._toggle = this.mode === 'toggle';
+        var el = this.element.nativeElement as HTMLElement;
+        if (el.attributes.getNamedItem("disabled")) {
+            this.disabled = true;
+        }
+        if (el.attributes.getNamedItem("toggle")) {
+            this.toggle = true;;
+        }
+        //this._toggle = this.mode === 'toggle';
         this._cursorpointer = !this.disabled;
         this._cursordefault = this.disabled;
     }
@@ -63,7 +83,7 @@ export class DoobCheckboxComponent implements ControlValueAccessor, OnInit {
     propagateChange(value: any) {
 
         this.checkedChange.emit(value);
-        this.registered.forEach(fn => {
+        this.#registered.forEach(fn => {
             fn(value);
         });
     }
@@ -72,10 +92,10 @@ export class DoobCheckboxComponent implements ControlValueAccessor, OnInit {
         this.checked = obj;
     }
 
-    registered = [];
+    #registered = [];
     registerOnChange(fn: any): void {
-        if (this.registered.indexOf(fn) === -1) {
-            this.registered.push(fn);
+        if (this.#registered.indexOf(fn) === -1) {
+            this.#registered.push(fn);
         }
     }
 

@@ -1,0 +1,15 @@
+
+<h2 class="ui dividing header" style="display: flex; margin-top: 30px;">
+  <div style="flex-grow: 1;">{{title}}</div>
+  <div *ngIf="example" (click)="show = !show" class="toggleExample">
+    <i class="small eye outline icon" *ngIf="show"></i>
+    <i class="small eye slash outline icon" *ngIf="!show"></i>
+  </div>
+</h2>
+
+<ng-content></ng-content>
+
+<db-accordion [open]="show" duration="200">
+    <db-prism *ngFor="let ex of example" [language]="ex.language" [code]="ex.code"></db-prism>
+</db-accordion>
+

@@ -167,12 +167,20 @@
             "aot": true,
             "assets": [
               "projects/demo/src/favicon.ico",
-              "projects/demo/src/assets"
+              "projects/demo/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/monaco-editor/min",
+                "output": "./assets/monaco-editor"
+              }
             ],
             "styles": [
               "projects/demo/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "semantic/dist/semantic.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -263,8 +271,53 @@
               "devServerTarget": "demo:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
-    }},
+    },
+    "@doob-ng/prism": {
+      "projectType": "library",
+      "root": "projects/doob-ng/prism",
+      "sourceRoot": "projects/doob-ng/prism/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/doob-ng/prism/tsconfig.lib.json",
+            "project": "projects/doob-ng/prism/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/doob-ng/prism/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/doob-ng/prism/src/test.ts",
+            "tsConfig": "projects/doob-ng/prism/tsconfig.spec.json",
+            "karmaConfig": "projects/doob-ng/prism/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/doob-ng/prism/tsconfig.lib.json",
+              "projects/doob-ng/prism/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    }
+  },
   "defaultProject": "demo"
 }

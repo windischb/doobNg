@@ -12,7 +12,7 @@ import { TypescriptOptions } from './models/typescript-options';
 import { GetFileExtension, GetDefaultExtensionForLanguage } from './file-extension-mapper';
 
 @Component({
-    selector: 'doob-editor, [doobEditor]',
+    selector: 'db-editor, [dbEditor]',
     template: '',
     styleUrls: ['./editor.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

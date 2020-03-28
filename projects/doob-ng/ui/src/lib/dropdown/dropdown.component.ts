@@ -7,7 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 declare var $: any;
 
 @Component({
-    selector: 'doob-dropdown',
+    selector: 'db-dropdown',
     templateUrl: './dropdown.component.html',
     styleUrls: ['./dropdown.component.scss'],
     host: {
@@ -28,20 +28,25 @@ export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
     @ViewChild('template', { read: ViewContainerRef }) public template: ViewContainerRef;
     @ContentChildren(DoobBaseComponent) items: QueryList<DoobBaseComponent>;
 
-    @HostBinding('class') class;
+    #fluid: boolean = false;
+    @Input()
+    @HostBinding('class.fluid')
+    set fluid(value) {
+        this.#fluid = !!value;
+    }
+    get fluid() {
+        return this.#fluid
+    }
 
-    @HostBinding('class.multiple') _multipleClass: boolean = false;
 
-
-    private _selected: string;
-    selected$: BehaviorSubject<any> = new BehaviorSubject<any>(this._selected);
+    selected$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     @Input()
     set selected(value: any) {
-        this._selected = value;
+
         this.selected$.next(value);
     }
     get selected() {
-        return this._selected;
+        return this.selected$.getValue();
     }
     @Output()
     selectedChange: EventEmitter<string> = new EventEmitter<string>();
@@ -66,30 +71,34 @@ export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
     }
 
 
-    private _multiple: string;
+    #multiple: boolean | string = false;
     @Input()
-    set multiple(value) {
+    @HostBinding('class.multiple')
+    set multiple(value: boolean | string) {
 
         if (value === undefined || value === null) {
-            this._multipleClass = true;
+            this.#multiple = true;
         } else if (value === false) {
-            this._multipleClass = false;
+            this.#multiple = false;
         } else {
-            this._multiple = `${value}`;
-            this._multipleClass = true;
+            this.#multiple = value;
         }
+        this.propagateChange();
+    }
+    get multiple() {
+        return this.#multiple
     }
 
-    private _emptyAsNull: boolean;
+    #emptyAsNull: boolean;
     @Input()
     set emptyAsNull(value) {
 
         if (value === undefined || value === null) {
-            this._emptyAsNull = true;
+            this.#emptyAsNull = true;
         } else if (value === false) {
-            this._emptyAsNull = false;
+            this.#emptyAsNull = false;
         } else {
-            this._emptyAsNull = true;
+            this.#emptyAsNull = true;
         }
     }
 
@@ -102,6 +111,15 @@ export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
 
     ngOnInit() {
 
+        var el = this.elementRef.nativeElement as HTMLElement;
+
+        if (el.attributes.getNamedItem("fluid")) {
+            this.fluid = true;
+        }
+        const multiple = el.attributes.getNamedItem("multiple")
+        if (multiple) {
+            this.multiple = multiple.value;
+        }
 
     }
 
@@ -135,8 +153,8 @@ export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
                 if (sel) {
                     let val = sel;
                     if (typeof val === 'string') {
-                        if (this._multiple) {
-                            val = val.split(this._multiple).map(el => el.trim());
+                        if (this.#multiple && typeof this.#multiple === 'string') {
+                            val = val.split(this.#multiple).map(el => el.trim());
                         }
                     }
                     setTimeout(() => {
@@ -153,27 +171,31 @@ export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
     }
 
 
+    #lastSelection: any;
     SelectionChanged(value: any) {
+        this.#lastSelection = value;
         this.propagateChange(value);
     }
 
 
-    propagateChange(value: string) {
+    propagateChange(value?: string) {
 
         if (this.disabled) {
             return;
         }
 
+        value = value || this.#lastSelection
+
         let result: any = value;
-        if (this._multipleClass) {
+        if (this.#multiple) {
             result = (result || "").split(',').filter(val => !!val)
 
-            if (this._multiple) {
-                result = (<Array<any>>result).join(this._multiple)
+            if (this.multiple && typeof this.multiple === 'string') {
+                result = (<Array<any>>result).join(this.multiple)
             }
         }
 
-        if (this._emptyAsNull) {
+        if (this.#emptyAsNull) {
             if (typeof result === 'string') {
                 if (!(result && result.trim())) {
                     result = null;

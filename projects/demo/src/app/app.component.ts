@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppUIService } from './app-ui.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'demo';
+  uiContext$ = this.uiService.UIContext$;
+
+  constructor(private uiService: AppUIService) {
+
+    uiService.SetDefault(ui => ui.Footer.Show = false)
+  }
 }

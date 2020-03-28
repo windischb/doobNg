@@ -1,0 +1,14 @@
+<demo-part title="Simple" [example]="simpleExample">
+
+    <div class="ui buttons">
+        <div class="ui primary button" (click)="simpleOpen = true">Open</div>
+        <div class="ui button" (click)="simpleOpen = !simpleOpen">Toggle</div>
+        <div class="ui secondary button" (click)="simpleOpen = false">Close</div>
+    </div>
+
+    <db-accordion [open]="simpleOpen">
+        <h1>Hidden Text</h1>
+        <p>Her I'am!</p>
+    </db-accordion>
+
+</demo-part>
