@@ -11,6 +11,9 @@ export class AppComponent {
 
   constructor(private uiService: AppUIService) {
 
-    uiService.SetDefault(ui => ui.Footer.Show = false)
+    uiService.SetDefault(ui => {
+        ui.Footer.Show = false
+        ui.Content.Scrollable = true
+    })
   }
 }
