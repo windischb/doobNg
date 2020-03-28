@@ -1,7 +1,7 @@
 import { Directive, Output, EventEmitter, ElementRef, AfterViewInit } from "@angular/core";
 
 @Directive({
-    selector: '[doobAfterViewInit]'
+    selector: '[dbAfterViewInit]'
 })
 export class DoobAfterViewInitDirective implements AfterViewInit  {
 

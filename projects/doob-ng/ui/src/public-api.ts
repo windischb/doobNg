@@ -7,3 +7,4 @@ export * from './lib/ui.module';
 export * from './lib/checkbox';
 export * from './lib/tabs';
 export * from './lib/dropdown';
+export * from './lib/accordion';

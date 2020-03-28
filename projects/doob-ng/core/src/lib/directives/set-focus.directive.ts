@@ -1,7 +1,7 @@
 import { Directive, ElementRef, AfterViewInit, Input } from '@angular/core';
 
 @Directive({
-    selector: '[doobSetFocus]'
+    selector: '[dbSetFocus]'
 })
 export class DoobSetFocusDirective implements AfterViewInit {
 

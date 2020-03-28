@@ -1,7 +1,7 @@
-import { Directive, ElementRef, Input, HostListener, OnInit, Renderer2, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, Renderer2, OnDestroy } from '@angular/core';
 
 @Directive({
-    selector: '[doobStopPropagation]'
+    selector: '[dbStopPropagation]'
 })
 export class DoobStopPropagationDirective implements OnInit, OnDestroy {
 

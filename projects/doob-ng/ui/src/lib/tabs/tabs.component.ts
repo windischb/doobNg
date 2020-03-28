@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy, EventEmitter, QueryList, Input, ContentChildren, Output, ChangeDetectorRef, OnDestroy, AfterContentInit, AfterViewInit, ViewChild, ContentChild, ElementRef, Renderer2 } from "@angular/core";
+import { Component, ChangeDetectionStrategy, EventEmitter, QueryList, Input, ContentChildren, Output, ChangeDetectorRef, OnDestroy, AfterContentInit, AfterViewInit, ViewChild, ElementRef, Renderer2 } from "@angular/core";
 import { DoobTabComponent } from './tab.component';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'db-tabs',

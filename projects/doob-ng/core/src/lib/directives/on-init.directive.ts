@@ -1,7 +1,7 @@
 import { Directive, Output, EventEmitter, ElementRef, OnInit } from "@angular/core";
 
 @Directive({
-    selector: '[doobOnInit]'
+    selector: '[dbOnInit]'
 })
 export class DoobOnInitDirective implements OnInit {
 

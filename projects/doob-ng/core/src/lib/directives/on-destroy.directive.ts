@@ -1,7 +1,7 @@
-import { Directive, Output, EventEmitter, ElementRef, OnInit, OnDestroy } from "@angular/core";
+import { Directive, Output, EventEmitter, ElementRef, OnDestroy } from "@angular/core";
 
 @Directive({
-    selector: '[doobOnDestroy]'
+    selector: '[dbOnDestroy]'
 })
 export class DoobOnDestroyDirective implements OnDestroy {
 
