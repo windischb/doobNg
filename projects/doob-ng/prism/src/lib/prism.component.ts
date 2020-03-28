@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, ViewChild, TemplateRef, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, Input } from '@angular/core';
 import * as prism from 'prismjs';
 import 'prismjs/components/prism-typescript';
 
@@ -39,13 +39,6 @@ export class DoobPrismComponent implements AfterViewInit {
 
 
   ngAfterViewInit(): void {
-
-    // setTimeout(() => {
-    //   let el = this.code.nativeElement as HTMLElement;
-    //   console.log({el})
-    //   this._code = el.innerText
-    // }, 100);
-
     prism.highlightAll()
   }
 

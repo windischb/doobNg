@@ -1,6 +1,5 @@
-import { Component, ChangeDetectionStrategy, Input, TemplateRef, ViewChild, ElementRef, HostBinding } from "@angular/core";
+import { Component, ChangeDetectionStrategy, Input, TemplateRef, ElementRef, HostBinding } from "@angular/core";
 import { BehaviorSubject, Subject } from 'rxjs';
-import { SafeStyle } from '@angular/platform-browser';
 
 @Component({
     selector: 'db-tab',

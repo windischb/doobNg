@@ -22,29 +22,29 @@ export class DoobCheckboxComponent implements ControlValueAccessor, OnInit {
     @Input() name: string;
     @Input() readonly = false;
 
-    #checkedSubject$ = new BehaviorSubject(false);
-    checked$ = this.#checkedSubject$.asObservable()
+    private checkedSubject$ = new BehaviorSubject(false);
+    checked$ = this.checkedSubject$.asObservable()
     @Input()
     get checked() {
-        return this.#checkedSubject$.getValue();
+        return this.checkedSubject$.getValue();
     }
 
     set checked(value: boolean) {
-        this.#checkedSubject$.next(!!value);
+        this.checkedSubject$.next(!!value);
     }
 
     @Output() checkedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    #_disabled: boolean = false;
+    private _disabled: boolean = false;
     @Input()
     get disabled() {
-        return this.#_disabled;
+        return this._disabled;
     };
     set disabled(value: any) {
         if (value === null || value === undefined || value === false) {
-            this.#_disabled = false
+            this._disabled = false
         } else {
-            this.#_disabled = !!value
+            this._disabled = !!value
         }
     }
 
@@ -83,7 +83,7 @@ export class DoobCheckboxComponent implements ControlValueAccessor, OnInit {
     propagateChange(value: any) {
 
         this.checkedChange.emit(value);
-        this.#registered.forEach(fn => {
+        this.registered.forEach(fn => {
             fn(value);
         });
     }
@@ -92,10 +92,10 @@ export class DoobCheckboxComponent implements ControlValueAccessor, OnInit {
         this.checked = obj;
     }
 
-    #registered = [];
+    private registered = [];
     registerOnChange(fn: any): void {
-        if (this.#registered.indexOf(fn) === -1) {
-            this.#registered.push(fn);
+        if (this.registered.indexOf(fn) === -1) {
+            this.registered.push(fn);
         }
     }
 

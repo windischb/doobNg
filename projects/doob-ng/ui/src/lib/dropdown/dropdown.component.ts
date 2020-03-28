@@ -28,14 +28,14 @@ export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
     @ViewChild('template', { read: ViewContainerRef }) public template: ViewContainerRef;
     @ContentChildren(DoobBaseComponent) items: QueryList<DoobBaseComponent>;
 
-    #fluid: boolean = false;
+    private _fluid: boolean = false;
     @Input()
     @HostBinding('class.fluid')
     set fluid(value) {
-        this.#fluid = !!value;
+        this._fluid = !!value;
     }
     get fluid() {
-        return this.#fluid
+        return this._fluid
     }
 
 
@@ -71,34 +71,34 @@ export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
     }
 
 
-    #multiple: boolean | string = false;
+    _multiple: boolean | string = false;
     @Input()
     @HostBinding('class.multiple')
     set multiple(value: boolean | string) {
 
         if (value === undefined || value === null) {
-            this.#multiple = true;
+            this._multiple = true;
         } else if (value === false) {
-            this.#multiple = false;
+            this._multiple = false;
         } else {
-            this.#multiple = value;
+            this._multiple = value;
         }
         this.propagateChange();
     }
     get multiple() {
-        return this.#multiple
+        return this._multiple
     }
 
-    #emptyAsNull: boolean;
+    private _emptyAsNull: boolean;
     @Input()
     set emptyAsNull(value) {
 
         if (value === undefined || value === null) {
-            this.#emptyAsNull = true;
+            this._emptyAsNull = true;
         } else if (value === false) {
-            this.#emptyAsNull = false;
+            this._emptyAsNull = false;
         } else {
-            this.#emptyAsNull = true;
+            this.emptyAsNull = true;
         }
     }
 
@@ -153,8 +153,8 @@ export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
                 if (sel) {
                     let val = sel;
                     if (typeof val === 'string') {
-                        if (this.#multiple && typeof this.#multiple === 'string') {
-                            val = val.split(this.#multiple).map(el => el.trim());
+                        if (this._multiple && typeof this._multiple === 'string') {
+                            val = val.split(this._multiple).map(el => el.trim());
                         }
                     }
                     setTimeout(() => {
@@ -171,9 +171,9 @@ export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
     }
 
 
-    #lastSelection: any;
+    private lastSelection: any;
     SelectionChanged(value: any) {
-        this.#lastSelection = value;
+        this.lastSelection = value;
         this.propagateChange(value);
     }
 
@@ -184,10 +184,10 @@ export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
             return;
         }
 
-        value = value || this.#lastSelection
+        value = value || this.lastSelection
 
         let result: any = value;
-        if (this.#multiple) {
+        if (this._multiple) {
             result = (result || "").split(',').filter(val => !!val)
 
             if (this.multiple && typeof this.multiple === 'string') {
@@ -195,7 +195,7 @@ export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
             }
         }
 
-        if (this.#emptyAsNull) {
+        if (this.emptyAsNull) {
             if (typeof result === 'string') {
                 if (!(result && result.trim())) {
                     result = null;
