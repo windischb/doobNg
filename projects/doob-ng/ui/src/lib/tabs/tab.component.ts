@@ -3,7 +3,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { SafeStyle } from '@angular/platform-browser';
 
 @Component({
-    selector: 'doob-tab',
+    selector: 'db-tab',
     templateUrl: './tab.component.html',
     styles: [`
 

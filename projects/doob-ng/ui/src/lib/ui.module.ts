@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { DoobTabsModule } from './tabs';
 import { DoobCheckboxModule } from './checkbox';
 import { DoobDropdownModule } from './dropdown';
+import { DoobAccordionModule } from './accordion/accordion.module';
 
 
 
@@ -10,13 +11,15 @@ import { DoobDropdownModule } from './dropdown';
   imports: [
     DoobCheckboxModule,
     DoobTabsModule,
-    DoobDropdownModule
+    DoobDropdownModule,
+    DoobAccordionModule
   ],
   declarations: [],
   exports: [
     DoobCheckboxModule,
     DoobTabsModule,
-    DoobDropdownModule
+    DoobDropdownModule,
+    DoobAccordionModule
   ]
 })
 export class DoobUIModule { }

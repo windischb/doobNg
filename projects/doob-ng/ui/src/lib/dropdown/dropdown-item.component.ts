@@ -2,7 +2,7 @@ import { Component, Input, HostBinding, ViewContainerRef } from "@angular/core";
 import { DoobBaseComponent } from './base.component';
 
 @Component({
-    selector: 'doob-dropdown-item',
+    selector: 'db-dropdown-item',
     templateUrl: './dropdown-item.component.html',
     host: {
         'class': 'item'
