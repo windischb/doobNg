@@ -6,14 +6,14 @@ import { Directive, ElementRef, AfterViewInit, Input } from '@angular/core';
 export class DoobSetFocusDirective implements AfterViewInit {
 
     @Input()
-    doobSetFocus: boolean | number;
+    dbSetFocus: boolean | number;
 
     constructor(private elementRef: ElementRef) {
 
     }
 
     ngAfterViewInit(): void {
-        const focus = (this.doobSetFocus != null && this.doobSetFocus !== undefined) ? this.doobSetFocus : true;
+        const focus = (this.dbSetFocus != null && this.dbSetFocus !== undefined) ? this.dbSetFocus : true;
 
         if (focus) {
             let timeout = 10;

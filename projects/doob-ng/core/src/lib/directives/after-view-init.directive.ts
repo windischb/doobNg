@@ -6,14 +6,14 @@ import { Directive, Output, EventEmitter, ElementRef, AfterViewInit } from "@ang
 export class DoobAfterViewInitDirective implements AfterViewInit  {
 
     @Output()
-    doobAfterViewInit: EventEmitter<ElementRef> = new EventEmitter<ElementRef>();
+    dbAfterViewInit: EventEmitter<ElementRef> = new EventEmitter<ElementRef>();
 
     constructor(private elementRef: ElementRef) {
 
     }
 
     ngAfterViewInit() {
-        this.doobAfterViewInit.emit(this.elementRef);
+        this.dbAfterViewInit.emit(this.elementRef);
     }
 
 }

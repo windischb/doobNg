@@ -6,7 +6,7 @@ import { Directive, ElementRef, Input, OnInit, Renderer2, OnDestroy } from '@ang
 export class DoobStopPropagationDirective implements OnInit, OnDestroy {
 
     @Input()
-    doobStopPropagation: string | Array<string>;
+    dbStopPropagation: string | Array<string>;
 
     private removeListenerArray: Array<(() => void)> = []
 
@@ -16,10 +16,10 @@ export class DoobStopPropagationDirective implements OnInit, OnDestroy {
 
     ngOnInit() {
         let events: Array<string> = [];
-        if (this.doobStopPropagation instanceof Array) {
-            events = [...this.doobStopPropagation];
+        if (this.dbStopPropagation instanceof Array) {
+            events = [...this.dbStopPropagation];
         } else {
-            events = this.doobStopPropagation.split(",")
+            events = this.dbStopPropagation.split(",")
         }
         events.forEach(ev => {
             try {
