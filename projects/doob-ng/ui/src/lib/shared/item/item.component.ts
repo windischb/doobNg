@@ -1,17 +1,18 @@
 import { Component, Input, HostBinding, ViewContainerRef } from "@angular/core";
-import { DoobBaseComponent } from './base.component';
+import { DoobBaseItemComponent } from './base-item.component';
+
 
 @Component({
-    selector: 'db-dropdown-item',
-    templateUrl: './dropdown-item.component.html',
+    selector: 'db-item, [db-item]',
+    templateUrl: './item.component.html',
     host: {
         'class': 'item'
     },
-    providers: [{ provide: DoobBaseComponent, useExisting: DoobDropdownItemComponent }]
+    providers: [{ provide: DoobBaseItemComponent, useExisting: DoobItemComponent }]
 })
-export class DoobDropdownItemComponent {
+export class DoobItemComponent  extends DoobBaseItemComponent  {
 
-    TypeName = 'DoobDropdownItemComponent';
+    TypeName = 'DoobItemComponent';
 
 
     //@Input() value: any;
@@ -23,7 +24,7 @@ export class DoobDropdownItemComponent {
     @HostBinding('attr.data-value') value: any
 
     constructor(public viewContainerRef: ViewContainerRef) {
-
+        super()
     }
 
     ngOnInit() {

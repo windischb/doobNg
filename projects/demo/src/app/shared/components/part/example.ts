@@ -1,6 +1,7 @@
 
 export class DemoExample {
 
-  language: string;
-  code: string;
+    title?: string;
+    language: string;
+    code: string;
 }

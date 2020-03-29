@@ -4,6 +4,8 @@ import { CheckboxDemoComponent } from './components/checkbox/checkbox-demo.compo
 import { AccordionDemoComponent } from './components/accordion/accordion-demo.component';
 import { DropdownDemoComponent } from './components/dropdown/dropdown-demo.component';
 import { EditorDemoComponent } from './components/editor/editor-demo.component';
+import { TabsDemoComponent } from './components/tabs/tabs-demo.component';
+import { MenuDemoComponent } from './components/menu/menu-demo.component';
 
 
 const routes: Routes = [
@@ -22,6 +24,14 @@ const routes: Routes = [
     {
         path: 'editor',
         component: EditorDemoComponent
+    },
+    {
+        path: 'menu',
+        component: MenuDemoComponent
+    },
+    {
+        path: 'tabs',
+        component: TabsDemoComponent
     }
 ];
 
@@ -29,7 +39,9 @@ export const RouteComponents = [
     CheckboxDemoComponent,
     AccordionDemoComponent,
     DropdownDemoComponent,
-    EditorDemoComponent
+    EditorDemoComponent,
+    MenuDemoComponent,
+    TabsDemoComponent
 ]
 
 @NgModule({

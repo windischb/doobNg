@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy, ContentChildren, QueryList, Input, ViewChild, ElementRef, ViewContainerRef, Output, EventEmitter, HostBinding, OnInit } from '@angular/core';
-import { DoobBaseComponent } from './base.component';
+import { Component, ChangeDetectionStrategy, Input, ElementRef, Output, EventEmitter, HostBinding, OnInit, ContentChildren, QueryList } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DoobBaseItemComponent } from '../shared/item/base-item.component';
 
 declare var $: any;
 
@@ -13,20 +13,20 @@ declare var $: any;
     host: {
         'class': "doob ui dropdown"
     },
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: DoobDropdownComponent,
-        multi: true
-    }],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: DoobDropdownComponent,
+            multi: true
+        }
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
+export class DoobDropdownComponent  implements ControlValueAccessor, OnInit {
 
+    @ContentChildren(DoobBaseItemComponent) Items: QueryList<DoobBaseItemComponent>;
 
     @Input() placeholder: string;
-
-    @ViewChild('template', { read: ViewContainerRef }) public template: ViewContainerRef;
-    @ContentChildren(DoobBaseComponent) items: QueryList<DoobBaseComponent>;
 
     private _fluid: boolean = false;
     @Input()
@@ -38,6 +38,7 @@ export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
         return this._fluid
     }
 
+    @HostBinding('class.item') isItem: boolean = false;
 
     selected$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     @Input()
@@ -120,20 +121,22 @@ export class DoobDropdownComponent implements ControlValueAccessor, OnInit {
         if (multiple) {
             this.multiple = multiple.value;
         }
+    }
 
+    ngAfterContentInit() {
+        this.Items.forEach(element => {
+            element.ParentComponentType = DoobDropdownComponent
+        });
     }
 
     ngAfterViewInit() {
 
-        this.items.forEach(item => {
-            this.template.element.nativeElement.appendChild(item.viewContainerRef.element.nativeElement)
-        })
+
 
         this.dropdownElement = $(this.elementRef.nativeElement);
 
         this.SubscribeSettings();
         this.SubscribeSelected();
-
     }
 
     private SubscribeSettings() {
