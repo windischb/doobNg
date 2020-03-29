@@ -47,6 +47,14 @@
       "@local/prism": [
         "projects/doob-ng/prism/doob-ng-prism",
         "projects/doob-ng/prism"
+      ],
+      "@doob-ng/cdk-helper": [
+        "dist/doob-ng/cdk-helper/doob-ng-cdk-helper",
+        "dist/doob-ng/cdk-helper"
+      ],
+      "@local/cdk-helper": [
+        "projects/doob-ng/cdk-helper/doob-ng-cdk-helper",
+        "projects/doob-ng/cdk-helper"
       ]
     }
   },

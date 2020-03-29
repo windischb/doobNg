@@ -21,17 +21,44 @@
 </demo-part>
 
 <demo-part title="Context Menu" [example]="contextMenuExample">
+
     <db-checkbox toggle #t3>Toggle</db-checkbox>
-    <db-menu class="secondary context-menu">
-        <db-header style="background-color: #525e76; color: white;">Header</db-header>
-        <a db-item icon="toggle on" (click)="t3.checked=true" *ngIf="!t3.checked">Enable</a>
-        <a db-item icon="toggle off icon" (click)="t3.checked=false" *ngIf="t3.checked">Disable</a>
-        <a db-item icon="edit">Edit</a>
-        <db-divider></db-divider>
-        <db-subitem name="Export As" on='hover'>
-            <db-item icon="file excel outline">Excel</db-item>
-            <db-item icon="file alternate outline">Csv</db-item>
-            <db-item icon="file code outline">Html</db-item>
-        </db-subitem>
-    </db-menu>
+    <div style="display:flex; padding-top:20px">
+        <div>
+
+            <db-menu class="secondary context-menu">
+                <db-header style="background-color: #525e76; color: white;">Header</db-header>
+                <a db-item icon="toggle on" (click)="t3.checked=true" *ngIf="!t3.checked">Enable</a>
+                <a db-item icon="toggle off icon" (click)="t3.checked=false" *ngIf="t3.checked">Disable</a>
+                <a db-item icon="edit">Edit</a>
+                <db-divider></db-divider>
+                <db-subitem name="Export As" on='hover'>
+                    <db-item icon="file excel outline">Excel</db-item>
+                    <db-item icon="file alternate outline">Csv</db-item>
+                    <db-item icon="file code outline">Html</db-item>
+                </db-subitem>
+            </db-menu>
+        </div>
+        <div style="margin-left: 18px;">
+            <p style="font-weight: bold;">
+                Wanna see the ContextMenu in action?<br>
+                try right click on this page...
+            </p>
+            <p>
+                For native browser context menu, hold CTRL Key.
+            </p>
+        </div>
+    </div>
+
+
+
 </demo-part>
+
+<ng-template #contextMenu>
+    <db-menu class="secondary context-menu">
+        <db-header style="background-color: #525e76; color: white;">Master Toggle</db-header>
+        <a db-item icon="random icon" (click)="t1.checked=!t1.checked; t2.checked=!t2.checked; t3.checked=!t3.checked;">Toggle</a>
+        <a db-item icon="toggle on" (click)="t1.checked=true; t2.checked=true; t3.checked=true;">Enable</a>
+        <a db-item icon="toggle off icon" (click)="t1.checked=false; t2.checked=false; t3.checked=false;">Disable</a>
+    </db-menu>
+</ng-template>

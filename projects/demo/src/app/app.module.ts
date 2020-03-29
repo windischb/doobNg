@@ -9,6 +9,7 @@ import { DoobUIModule } from "@local/ui";
 import { DoobPrismModule } from '@local/prism';
 import { DemoPartComponent } from './shared/components/part/part.component';
 import { DoobEditorModule } from '@local/editor';
+import { DoobCdkHelperModule } from '@local/cdk-helper';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { DoobEditorModule } from '@local/editor';
     AppRoutingModule,
     DoobUIModule,
     DoobPrismModule,
-    DoobEditorModule
+    DoobEditorModule,
+    DoobCdkHelperModule
   ],
   providers: [],
   bootstrap: [AppComponent]
