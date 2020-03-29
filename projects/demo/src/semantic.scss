@@ -1,0 +1,43 @@
+.ui.form input:not([type]),
+.ui.form input[type="date"],
+.ui.form input[type="datetime-local"],
+.ui.form input[type="email"],
+.ui.form input[type="number"],
+.ui.form input[type="password"],
+.ui.form input[type="search"],
+.ui.form input[type="tel"],
+.ui.form input[type="time"],
+.ui.form input[type="text"],
+.ui.form input[type="file"],
+.ui.form input[type="url"],
+input:not([type]),
+input[type="date"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="text"],
+input[type="file"],
+input[type="url"],
+.dropdown,
+.button,
+.ui.checkbox:not(.toggle) label:before,
+.ui.label,
+.ui.menu {
+  border-radius: 0.1rem !important;
+}
+
+.ui.secondary.vertical.menu > .item {
+  border-radius: 0 !important;
+}
+
+.ui.secondary.vertical.menu > .item:first-child {
+  border-radius: 0.1rem 0.1rem 0 0 !important;
+}
+
+.ui.secondary.vertical.menu > .item:last-child {
+  border-radius: 0 0 0.1rem 0.1rem !important;
+}

@@ -1,0 +1,7 @@
+
+    {{name}}
+    <i class="icon" [ngClass]="icon || 'dropdown'"></i>
+    <div class="menu">
+        <ng-content select="db-item, [db-item], db-divider, [db-divider], db-header, [db-header], db-subitem"></ng-content>
+    </div>
+

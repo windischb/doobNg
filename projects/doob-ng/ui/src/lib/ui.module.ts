@@ -3,23 +3,26 @@ import { DoobTabsModule } from './tabs';
 import { DoobCheckboxModule } from './checkbox';
 import { DoobDropdownModule } from './dropdown';
 import { DoobAccordionModule } from './accordion/accordion.module';
+import { DoobMenuModule } from './menu/menu.module';
+import { CommonModule } from '@angular/common';
 
 
-
+const exportModules = [
+    DoobCheckboxModule,
+    DoobTabsModule,
+    DoobDropdownModule,
+    DoobAccordionModule,
+    DoobMenuModule
+]
 
 @NgModule({
   imports: [
-    DoobCheckboxModule,
-    DoobTabsModule,
-    DoobDropdownModule,
-    DoobAccordionModule
+      CommonModule,
+    ...exportModules
   ],
   declarations: [],
   exports: [
-    DoobCheckboxModule,
-    DoobTabsModule,
-    DoobDropdownModule,
-    DoobAccordionModule
+    ...exportModules
   ]
 })
 export class DoobUIModule { }

@@ -1,0 +1,37 @@
+<demo-part title="Default Menu" [example]="defaultMenuExample">
+    <db-checkbox toggle #t1>Toggle</db-checkbox>
+    <db-menu>
+        <div db-header>Header</div>
+        <a db-item icon="toggle on" (click)="t1.checked=true" *ngIf="!t1.checked">Enable</a>
+        <a db-item icon="toggle off icon" (click)="t1.checked=false" *ngIf="t1.checked">Disable</a>
+        <db-divider></db-divider>
+        <a db-item icon="edit">Edit</a>
+    </db-menu>
+</demo-part>
+
+<demo-part title="Secondary Menu" [example]="secondaryMenuExample">
+    <db-checkbox toggle #t2>Toggle</db-checkbox>
+    <db-menu class="secondary">
+        <db-header>Header</db-header>
+        <a db-item icon="toggle on" (click)="t2.checked=true" *ngIf="!t2.checked">Enable</a>
+        <a db-item icon="toggle off icon" (click)="t2.checked=false" *ngIf="t2.checked">Disable</a>
+        <db-divider></db-divider>
+        <a db-item icon="edit">Edit</a>
+    </db-menu>
+</demo-part>
+
+<demo-part title="Context Menu" [example]="contextMenuExample">
+    <db-checkbox toggle #t3>Toggle</db-checkbox>
+    <db-menu class="secondary context-menu">
+        <db-header style="background-color: #525e76; color: white;">Header</db-header>
+        <a db-item icon="toggle on" (click)="t3.checked=true" *ngIf="!t3.checked">Enable</a>
+        <a db-item icon="toggle off icon" (click)="t3.checked=false" *ngIf="t3.checked">Disable</a>
+        <a db-item icon="edit">Edit</a>
+        <db-divider></db-divider>
+        <db-subitem name="Export As" on='hover'>
+            <db-item icon="file excel outline">Excel</db-item>
+            <db-item icon="file alternate outline">Csv</db-item>
+            <db-item icon="file code outline">Html</db-item>
+        </db-subitem>
+    </db-menu>
+</demo-part>

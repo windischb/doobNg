@@ -1,24 +1,21 @@
 import { NgModule } from '@angular/core';
 import { DoobDropdownComponent } from './dropdown.component';
-import { DoobDropdownItemComponent } from './dropdown-item.component';
 import { CommonModule } from '@angular/common';
-import { DoobDropdownDividerComponent } from './dropdown-divider.component';
+import { DoobSharedModule } from '../shared/shared.module';
 
 
 
 @NgModule({
     declarations: [
-        DoobDropdownComponent,
-        DoobDropdownItemComponent,
-        DoobDropdownDividerComponent
+        DoobDropdownComponent
     ],
     imports: [
-        CommonModule
+        CommonModule,
+        DoobSharedModule
     ],
     exports: [
         DoobDropdownComponent,
-        DoobDropdownItemComponent,
-        DoobDropdownDividerComponent
+        DoobSharedModule
     ]
 })
 export class DoobDropdownModule { }
