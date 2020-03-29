@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewChild, ViewContainerRef, ContentChildren, QueryList, AfterViewInit, Renderer2, ElementRef, Input, HostBinding, AfterContentInit } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ContentChildren, QueryList, AfterContentInit } from "@angular/core";
 import { DoobBaseItemComponent } from '../shared/item/base-item.component';
 
 @Component({
@@ -17,7 +17,6 @@ export class DoobMenuComponent implements AfterContentInit {
 
 
     ngAfterContentInit() {
-        console.log(this.Items)
         this.Items.forEach(element => {
             element.ParentComponentType = DoobMenuComponent
         });
