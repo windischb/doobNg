@@ -1,7 +1,8 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, TemplateRef, ViewContainerRef, HostListener, ViewChild } from "@angular/core";
 import { AppUIService } from '../../app-ui.service';
 import { DemoExample } from '../../shared/components/part/example';
 import { htmlAstToRender3Ast } from '@angular/compiler/src/render3/r3_template_transform';
+import { DoobOverlayService, ContextMenuContext } from 'projects/doob-ng/cdk-helper/src/lib/overlay/overlay.service';
 
 @Component({
     templateUrl: './menu-demo.component.html',
@@ -9,6 +10,16 @@ import { htmlAstToRender3Ast } from '@angular/compiler/src/render3/r3_template_t
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuDemoComponent {
+
+
+    @ViewChild('contextMenu') contextMenu: TemplateRef<any>;
+    @HostListener('contextmenu', ['$event'])
+    OnContextMenu($event: MouseEvent ) {
+        this.contextMenuContext?.CloseContextMenu();
+        this.contextMenuContext = this.overlay.OpenContextMenu( $event, this.contextMenu, this.viewContainerRef, null);
+    }
+
+    contextMenuContext: ContextMenuContext;
 
     defaultMenuExample = `
 <db-checkbox toggle #t1>Toggle</db-checkbox>
@@ -66,10 +77,11 @@ export class MenuDemoComponent {
         }
     ]
 
-    constructor(private appUi: AppUIService) {
+    constructor(private appUi: AppUIService, private overlay: DoobOverlayService, private viewContainerRef: ViewContainerRef) {
         appUi.Set(ui => {
             ui.Header.Title = "Menu"
             ui.Header.Icon = "list"
         })
     }
+
 }

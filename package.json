@@ -8,23 +8,22 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-
     "build:core": "ng build @doob-ng/core --prod",
     "build:ui": "ng build @doob-ng/ui --prod",
     "build:editor": "ng build @doob-ng/editor --prod",
     "build:prism": "ng build @doob-ng/prism --prod",
-
+    "build:cdk-helper": "ng build @doob-ng/cdk-helper --prod",
     "publish:core": "npm publish ./dist/doob-ng/core --access public",
     "publish:ui": "npm publish ./dist/doob-ng/ui --access public",
     "publish:editor": "npm publish ./dist/doob-ng/editor --access public",
     "publish:prism": "npm publish ./dist/doob-ng/prism --access public",
-
+    "publish:cdk-helper": "npm publish ./dist/doob-ng/cdk-helper --access public",
     "deploy:demo": "ng deploy --base-href=/doobNg/"
-
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~9.1.0",
+    "@angular/cdk": "^9.2.0",
     "@angular/common": "~9.1.0",
     "@angular/compiler": "~9.1.0",
     "@angular/core": "~9.1.0",
