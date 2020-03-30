@@ -1,6 +1,5 @@
 import { Component, AfterViewInit, Input } from '@angular/core';
 import * as prism from 'prismjs';
-import 'prismjs/components/prism-typescript';
 
 @Component({
   selector: 'db-prism',
