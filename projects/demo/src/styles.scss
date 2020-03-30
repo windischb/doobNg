@@ -2,6 +2,9 @@
 @import '../../../semantic/dist/semantic.min.css';
 @import "~prismjs/plugins/toolbar/prism-toolbar.css";
 @import "~prismjs/themes/prism-okaidia";
+@import 'prismjs/components/prism-typescript';
+
 @import "~@angular/cdk/overlay-prebuilt.css";
+
 
 @import "./semantic.scss";
