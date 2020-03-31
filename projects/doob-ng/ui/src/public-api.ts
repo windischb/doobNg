@@ -11,3 +11,4 @@ export * from './lib/accordion';
 export * from './lib/menu';
 
 export * from './lib/shared/item';
+export * from './lib/toast';
