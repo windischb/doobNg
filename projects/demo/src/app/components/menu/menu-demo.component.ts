@@ -1,8 +1,7 @@
 import { Component, ChangeDetectionStrategy, TemplateRef, ViewContainerRef, HostListener, ViewChild } from "@angular/core";
 import { AppUIService } from '../../app-ui.service';
 import { DemoExample } from '../../shared/components/part/example';
-import { htmlAstToRender3Ast } from '@angular/compiler/src/render3/r3_template_transform';
-import { DoobOverlayService, ContextMenuContext } from 'projects/doob-ng/cdk-helper/src/lib/overlay/overlay.service';
+import { DoobOverlayService, ContextMenuContext } from '@local/cdk-helper';
 
 @Component({
     templateUrl: './menu-demo.component.html',

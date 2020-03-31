@@ -24,6 +24,9 @@
             <a db-item class="item" routerLink="/tabs" routerLinkActive="active">
                 Tabs
             </a>
+            <a db-item class="item" routerLink="/toast" routerLinkActive="active" *ngIf="isDev">
+                Toast
+            </a>
         </db-menu>
 
         <div class="whitespace">

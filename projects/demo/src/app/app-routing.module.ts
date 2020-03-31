@@ -6,6 +6,7 @@ import { DropdownDemoComponent } from './components/dropdown/dropdown-demo.compo
 import { EditorDemoComponent } from './components/editor/editor-demo.component';
 import { TabsDemoComponent } from './components/tabs/tabs-demo.component';
 import { MenuDemoComponent } from './components/menu/menu-demo.component';
+import { ToastDemoComponent } from './components/toast/toast-demo.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,10 @@ const routes: Routes = [
     {
         path: 'tabs',
         component: TabsDemoComponent
+    },
+    {
+        path: 'toast',
+        component: ToastDemoComponent
     }
 ];
 
@@ -41,7 +46,8 @@ export const RouteComponents = [
     DropdownDemoComponent,
     EditorDemoComponent,
     MenuDemoComponent,
-    TabsDemoComponent
+    TabsDemoComponent,
+    ToastDemoComponent
 ]
 
 @NgModule({

@@ -26,7 +26,8 @@ input[type="url"],
 .button,
 .ui.checkbox:not(.toggle) label:before,
 .ui.label,
-.ui.menu {
+.ui.menu,
+.ui.message {
   border-radius: 0.1rem !important;
 }
 
