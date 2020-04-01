@@ -55,6 +55,14 @@
       "@local/cdk-helper": [
         "projects/doob-ng/cdk-helper/doob-ng-cdk-helper",
         "projects/doob-ng/cdk-helper"
+      ],
+      "@doob-ng/grid": [
+        "dist/doob-ng/grid/doob-ng-grid",
+        "dist/doob-ng/grid"
+      ],
+      "@local/grid": [
+        "projects/doob-ng/grid/doob-ng-grid",
+        "projects/doob-ng/grid"
       ]
     }
   },

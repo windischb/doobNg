@@ -1,12 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
-@import '../../../semantic/dist/semantic.min.css';
+@import "../../../semantic/dist/semantic.min.css";
 @import "~prismjs/plugins/toolbar/prism-toolbar.css";
 @import "~prismjs/themes/prism-okaidia";
 
 @import "~@angular/cdk/overlay-prebuilt.css";
 
 @import "../../doob-ng/ui/style.scss";
+@import "../../doob-ng/grid/style.scss";
 
 .ui.toast-container.top.right {
     margin-top: 50px;
 }
+
+
+

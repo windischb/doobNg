@@ -1,0 +1,11 @@
+<demo-part title="Simple AgGrid" [example]="simpleGridExample">
+    <ag-grid-angular [dbGrid]="simpleGrid" style="height: 300px;" class="ag-theme-balham"></ag-grid-angular>
+
+    <div class="ui buttons">
+        <div class="ui button" (click)="SelectAll()">Select All</div>
+        <div class="ui button" (click)="DeSelectAll()">Deselect All</div>
+    </div>
+
+    <pre>{{simpleGridSelected$ | async | json}}</pre>
+
+</demo-part>
