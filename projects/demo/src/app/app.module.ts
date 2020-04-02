@@ -10,6 +10,7 @@ import { DemoPartComponent } from './shared/components/part/part.component';
 import { DoobEditorModule } from '@local/editor';
 import { DoobCdkHelperModule } from '@local/cdk-helper';
 import { DoobGridModule } from '@local/grid';
+import { DoobCoreModule } from '@local/core';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { DoobGridModule } from '@local/grid';
     DoobPrismModule,
     DoobEditorModule,
     DoobCdkHelperModule,
-    DoobGridModule
+    DoobGridModule,
+    DoobCoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

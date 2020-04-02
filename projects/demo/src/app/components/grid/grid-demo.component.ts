@@ -31,7 +31,15 @@ export class GridDemoComponent {
             { make: "Toyota", model: "Celica", price: 35000 },
             { make: "Ford1", model: "Mondeo", price: 32000 },
             { make: "Porsche", model: "Boxter", price: 72000 }
-        ]);
+        ])
+        .OnCellContextMenu(event => {
+            console.log(event)
+        })
+        .OnViewPortContextMenu(event => {
+            console.log(event)
+        });
+
+
     simpleGridExample: Array<DemoExample> = [
         {
             language: "html",

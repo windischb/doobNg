@@ -14,14 +14,16 @@ export class DoobItemComponent  extends DoobBaseItemComponent  {
 
     TypeName = 'DoobItemComponent';
 
+    @Input()
+    set ParentComponent(value: string) {
 
-    //@Input() value: any;
+    }
+
     @Input() description: string;
     @Input() icon: string;
-    @Input() type: null | "divider" | "submenu" = null;
 
-    @Input()
-    @HostBinding('attr.data-value') value: any
+    // @Input()
+    // @HostBinding('attr.data-value') value: any
 
     constructor(public viewContainerRef: ViewContainerRef) {
         super()

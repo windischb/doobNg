@@ -125,7 +125,7 @@ export class DoobDropdownComponent  implements ControlValueAccessor, OnInit {
 
     ngAfterContentInit() {
         this.Items.forEach(element => {
-            element.ParentComponentType = DoobDropdownComponent
+            element.ParentComponent = 'dropdown';
         });
     }
 

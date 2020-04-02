@@ -6,16 +6,10 @@ export abstract class DoobBaseItemComponent implements OnDestroy {
 
     abstract TypeName = ''
     abstract viewContainerRef: ViewContainerRef
+    abstract ParentComponent: string;
 
-    ParentComponentType$ = new Subject<Type<any>>();
-
-    set ParentComponentType(value: Type<any>) {
-        this.ParentComponentType$.next(value);
-    }
-
-    destroy$ = new Subject()
     ngOnDestroy() {
-        this.destroy$.next()
+
     }
 
 }

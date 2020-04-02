@@ -13,11 +13,7 @@ export class DoobOverlayService {
 
     }
 
-    //overlayRef: OverlayRef | null;
-    //sub: Subscription;
-
     OpenContextMenu($event: MouseEvent, templateRef: TemplateRef<any>, viewContainerRef: ViewContainerRef, context: any) {
-
 
 
         if ($event.ctrlKey) {
@@ -40,15 +36,15 @@ export class DoobOverlayService {
 
         const overlayRef = this.overlay.create({
             positionStrategy,
-            scrollStrategy: this.overlay.scrollStrategies.close()
+            scrollStrategy: this.overlay.scrollStrategies.close(),
+            //hasBackdrop: true,
+            //backdropClass: 'cdk-overlay-transparent-backdrop',
         });
         var tp = new TemplatePortal(templateRef, viewContainerRef, {
             $implicit: context
         });
 
         var emb = overlayRef.attach(tp);
-
-
 
         return new ContextMenuContext(overlayRef, emb.rootNodes);
     }
@@ -60,16 +56,13 @@ export class ContextMenuContext {
     private sub: Subscription
 
     constructor(private overlayRef: OverlayRef, templ: Array<HTMLElement>) {
+
+
         this.sub = fromEvent<MouseEvent>(document, 'click')
             .pipe(
                 filter(event => {
-                    let ovEl = this.overlayRef.overlayElement as HTMLElement;
-
-                    const inX = event.x > ovEl.parentElement.offsetLeft && event.x < (ovEl.parentElement.offsetLeft + ovEl.offsetWidth)
-                    const inY = event.y > ovEl.parentElement.offsetTop && event.y < (ovEl.parentElement.offsetTop + ovEl.offsetHeight)
-
                     const clickTarget = event.target as HTMLElement;
-                    return !!this.overlayRef && !(inX && inY)
+                    return !!this.overlayRef && !this.overlayRef.overlayElement.contains(clickTarget);
                 }),
                 take(1)
             ).subscribe(() => {
