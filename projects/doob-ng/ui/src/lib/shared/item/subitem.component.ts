@@ -14,11 +14,14 @@ declare var $: any;
 })
 export class DoobSubItemComponent extends DoobBaseItemComponent implements AfterViewInit  {
 
+
+
     TypeName = 'DoobSubItemComponent';
 
     @Input() name: string;
     @Input() icon: string;
     @Input() on: string = 'hover'
+    @Input() ParentComponent: string;
 
     dropdownElement:any;
 

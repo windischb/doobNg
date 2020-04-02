@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef } from "@angular/core";
+import { Component, ViewContainerRef, Input } from "@angular/core";
 import { DoobBaseItemComponent } from './base-item.component';
 
 @Component({
@@ -17,6 +17,8 @@ import { DoobBaseItemComponent } from './base-item.component';
     `],
 })
 export class DoobDividerComponent extends DoobBaseItemComponent {
+
+    @Input() ParentComponent: string;
 
     TypeName: string = 'DoobDividerComponent';
 
