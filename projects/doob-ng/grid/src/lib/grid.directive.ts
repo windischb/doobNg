@@ -37,7 +37,6 @@ export class DoobGridDirective {
             return;
         }
 
-        $event.stopPropagation();
         $event.preventDefault();
 
         const targetElement = $event.target as HTMLElement;

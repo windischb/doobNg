@@ -35,8 +35,8 @@ export class GridDemoComponent {
         .OnCellContextMenu(event => {
             console.log(event)
         })
-        .OnViewPortContextMenu(event => {
-            console.log(event)
+        .OnViewPortContextMenu((event, api) => {
+            console.log(event, api)
         });
 
 

@@ -16,7 +16,7 @@ export class MenuDemoComponent {
 
     @HostListener('contextmenu', ['$event'])
     OnContextMenu($event: MouseEvent) {
-        this.contextMenuContext?.CloseContextMenu();
+        //this.contextMenuContext?.CloseContextMenu();
         this.contextMenuContext = this.overlay.OpenContextMenu($event, this.contextMenu, this.viewContainerRef, null);
     }
 

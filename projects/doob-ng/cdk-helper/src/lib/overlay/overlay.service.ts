@@ -1,8 +1,8 @@
 import { Injectable, TemplateRef, ViewContainerRef, ApplicationRef } from "@angular/core";
 import { OverlayRef, Overlay, FlexibleConnectedPositionStrategyOrigin } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
-import { fromEvent, Subscription } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { fromEvent, Subscription, race, merge } from 'rxjs';
+import { filter, take, tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -46,7 +46,7 @@ export class DoobOverlayService {
 
         var emb = overlayRef.attach(tp);
 
-        return new ContextMenuContext(overlayRef, emb.rootNodes);
+        return new ContextMenuContext(overlayRef, emb.rootNodes, $event);
     }
 
 }
@@ -55,11 +55,12 @@ export class ContextMenuContext {
 
     private sub: Subscription
 
-    constructor(private overlayRef: OverlayRef, templ: Array<HTMLElement>) {
+    constructor(private overlayRef: OverlayRef, templ: Array<HTMLElement>, excludeEvent: MouseEvent) {
 
 
-        this.sub = fromEvent<MouseEvent>(document, 'click')
+        this.sub =  merge(fromEvent<MouseEvent>(document, 'click'), fromEvent<MouseEvent>(document, 'contextmenu') )
             .pipe(
+                filter(ev => ev.type !== 'contextmenu' || (ev.x != excludeEvent.x && ev.y != excludeEvent.y)),
                 filter(event => {
                     const clickTarget = event.target as HTMLElement;
                     return !!this.overlayRef && !this.overlayRef.overlayElement.contains(clickTarget);
