@@ -192,6 +192,8 @@ MIT
 
 @doob-ng/cdk-helper
 
+@doob-ng/core
+
 @doob-ng/editor
 
 @doob-ng/grid
