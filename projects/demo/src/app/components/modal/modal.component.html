@@ -1,0 +1,17 @@
+<demo-part title="Simple Modal">
+
+<div class="ui button" (click)="openTemplateModal()">Open Modal from Template</div>
+<div class="ui button" (click)="openComponentModal()">Open Modal from Component</div>
+</demo-part>
+
+<ng-template #simpleModal>
+
+    <div style="height: 200px; width: 200px; background-color: whitesmoke; border: 1px solid gray;">
+
+        Hi!
+        I'am a Modal
+
+
+    </div>
+
+</ng-template>

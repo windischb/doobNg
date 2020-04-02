@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, TemplateRef, ViewContainerRef, HostListener, ViewChild, ChangeDetectorRef, ElementRef, ComponentRef, ComponentFactoryResolver, OnChanges, SimpleChanges } from "@angular/core";
 import { AppUIService } from '../../app-ui.service';
 import { DemoExample } from '../../shared/components/part/example';
-import { DoobOverlayService, ContextMenuContext } from '@local/cdk-helper';
+import { DoobOverlayService, IOverlayHandle } from '@local/cdk-helper';
 import { MenuBuilder } from '@local/ui';
 
 @Component({
@@ -20,7 +20,7 @@ export class MenuDemoComponent {
         this.contextMenuContext = this.overlay.OpenContextMenu($event, this.contextMenu, this.viewContainerRef, null);
     }
 
-    contextMenuContext: ContextMenuContext;
+    contextMenuContext: IOverlayHandle;
 
     defaultMenuExample = `
 <db-checkbox toggle #t1>Toggle</db-checkbox>

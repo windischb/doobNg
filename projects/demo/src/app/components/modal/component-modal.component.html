@@ -1,0 +1,15 @@
+<div class="ui top attached segment" style="background-color: #292f3b; color: white;">
+    <div class="ui huge header" style="color: whitesmoke;">
+        {{context.data.header}}
+    </div>
+</div>
+<div class="ui attached segment" style="border:none;padding: 28px 28px 20px 28px">
+    <div>
+        <h3>Hi, {{context.data.name}}!</h3>
+    </div>
+    <p>I'm your Modal</p>
+</div>
+<div class="ui bottom attached segment" style="display: flex;padding: 8px;">
+    <button class="ui primary button" style="flex-grow: 1;" (click)="ok()">Save</button>
+    <button class="ui grey button" style="flex-grow: 1;margin-right: 0px;" (click)="cancel()">Cancel</button>
+</div>

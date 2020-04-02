@@ -8,6 +8,7 @@ import { TabsDemoComponent } from './components/tabs/tabs-demo.component';
 import { MenuDemoComponent } from './components/menu/menu-demo.component';
 import { ToastDemoComponent } from './components/toast/toast-demo.component';
 import { GridDemoComponent } from './components/grid/grid-demo.component';
+import { ModelDemoComponent } from './components/modal/modal.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,10 @@ const routes: Routes = [
         component: MenuDemoComponent
     },
     {
+        path: 'modal',
+        component: ModelDemoComponent
+    },
+    {
         path: 'tabs',
         component: TabsDemoComponent
     },
@@ -53,7 +58,8 @@ export const RouteComponents = [
     MenuDemoComponent,
     TabsDemoComponent,
     ToastDemoComponent,
-    GridDemoComponent
+    GridDemoComponent,
+    ModelDemoComponent
 ]
 
 @NgModule({
