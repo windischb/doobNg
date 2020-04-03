@@ -11,30 +11,30 @@ import { DoobEditorModule } from '@local/editor';
 import { DoobCdkHelperModule } from '@local/cdk-helper';
 import { DoobGridModule } from '@local/grid';
 import { DoobCoreModule } from '@local/core';
-import { ComponentModalComponent } from './components/modal/component-modal.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ModalModule } from './components/modal/modal.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     ...RouteComponents,
     DemoPartComponent,
-    ComponentModalComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
+
     DoobUIModule,
     DoobPrismModule,
     DoobEditorModule,
     DoobCdkHelperModule,
     DoobGridModule,
-    DoobCoreModule
+    DoobCoreModule,
+    ModalModule
   ],
   providers: [],
   entryComponents: [
-    ComponentModalComponent
+
   ],
   bootstrap: [AppComponent]
 })

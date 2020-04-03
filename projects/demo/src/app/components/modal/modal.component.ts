@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, ViewContainerRef } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, ViewContainerRef, ComponentFactoryResolver } from "@angular/core";
 import { DoobModalService } from '@local/cdk-helper';
 import { ComponentModalComponent } from './component-modal.component';
 
@@ -12,7 +12,7 @@ export class ModelDemoComponent {
 
     @ViewChild('simpleModal') simpleModal: TemplateRef<any>;
 
-    constructor(private modal: DoobModalService, private viewContainerRef: ViewContainerRef) {
+    constructor(private modal: DoobModalService, private viewContainerRef: ViewContainerRef, private componentFactoryResolver: ComponentFactoryResolver) {
 
     }
 
@@ -30,6 +30,9 @@ export class ModelDemoComponent {
             .SetData({
                 header: "Component Modal",
                 name: "Bernhard"
+            })
+            .SetModalOptions({
+                componentFactoryResolver: this.componentFactoryResolver
             })
             .AddEventHandler("Log", (ct) => alert(`${ct.payload}`))
             .CloseOnOutsideClick()

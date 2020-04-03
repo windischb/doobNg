@@ -1,6 +1,6 @@
 {
   "name": "@doob-ng/grid",
-  "version": "0.2.2",
+  "version": "0.3.1",
   "peerDependencies": {
     "@ag-grid-community/all-modules": "^23.0.2",
     "@ag-grid-community/angular": "^23.0.2",

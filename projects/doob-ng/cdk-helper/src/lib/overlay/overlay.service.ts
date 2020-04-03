@@ -1,11 +1,13 @@
-import { Injectable, TemplateRef, ViewContainerRef, ApplicationRef, Type, Injector, ComponentRef, ComponentFactoryResolver } from "@angular/core";
-import { OverlayRef, Overlay, FlexibleConnectedPositionStrategyOrigin } from '@angular/cdk/overlay';
+import { Injectable, TemplateRef, ViewContainerRef, Type, Injector, ComponentRef, ComponentFactoryResolver } from "@angular/core";
+import { OverlayRef, Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { TemplatePortal, ComponentPortal, PortalInjector } from '@angular/cdk/portal';
-import { fromEvent, Subscription, race, merge } from 'rxjs';
-import { filter, take, tap } from 'rxjs/operators';
+import { fromEvent, Subscription, merge } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { OverlayOptions } from './overlay-options';
 import { ModalEventHandlerContext } from "./modal/modal-event-handler-context";
 import { ModalEventHandlers } from "./modal/modal-event-handlers";
+import { ComponentModalOptions } from './component-modal-options';
+import { TemplateModalOptions } from './template-modal-options';
 
 @Injectable({
     providedIn: 'root'
@@ -50,18 +52,21 @@ export class DoobOverlayService {
         return new ContextMenuHandle(overlayRef, emb.rootNodes, $event);
     }
 
-    OpenTemplateRefModal(templateRef: TemplateRef<any>, viewContainerRef: ViewContainerRef, context: any): IOverlayHandle {
-
+    OpenTemplateRefModal(templateRef: TemplateRef<any>, viewContainerRef: ViewContainerRef, context: any, templateModalOptions?: TemplateModalOptions): IOverlayHandle {
+        console.log(context)
         const positionStrategy = this.overlay.position()
             .global()
             .top("50px")
             .centerHorizontally()
 
-        const overlayRef = this.overlay.create({
+        let overlayConfig: OverlayConfig = {
             positionStrategy,
             scrollStrategy: this.overlay.scrollStrategies.close(),
             hasBackdrop: true,
-        });
+            ...templateModalOptions?.overlayConfig
+        }
+
+        const overlayRef = this.overlay.create(overlayConfig);
 
         var options = this.buildOverlayOptions(context);
 
@@ -76,22 +81,26 @@ export class DoobOverlayService {
         return new ModalHandle(overlayRef, options);
     }
 
-    OpenComponentModal<T>(component: Type<T>, context: any): IOverlayHandle {
+    OpenComponentModal<T>(component: Type<T>, context: any, componentModalOptions?: ComponentModalOptions): IOverlayHandle {
 
         const positionStrategy = this.overlay.position()
             .global()
             .top("50px")
             .centerHorizontally()
 
-        const overlayRef = this.overlay.create({
+        let overlayConfig: OverlayConfig = {
             positionStrategy,
             scrollStrategy: this.overlay.scrollStrategies.close(),
             hasBackdrop: true,
-        });
-        var options = this.buildOverlayOptions(context);
-        var cp = new ComponentPortal(component, null, this.createPortalInjector(overlayRef, options), this.componentFactoryResolver);
+            ...componentModalOptions?.overlayConfig
+        }
 
-        const containerRef: ComponentRef<T> = overlayRef.attach(cp);
+        const overlayRef = this.overlay.create(overlayConfig);
+
+        var options = this.buildOverlayOptions(context);
+        var cp = new ComponentPortal(component, null, this.createPortalInjector(overlayRef, options), componentModalOptions?.componentFactoryResolver || this.componentFactoryResolver);
+
+        overlayRef.attach(cp);
 
         return new ModalHandle(overlayRef, options);
     }
@@ -201,4 +210,5 @@ export class OverlayContext<T = any> {
     }
 
 }
+
 

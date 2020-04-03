@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { OverlayContext } from '@local/cdk-helper';
+import { AppUIService } from '../../app-ui.service';
 
 @Component({
     templateUrl: './component-modal.component.html'
@@ -9,7 +10,7 @@ import { OverlayContext } from '@local/cdk-helper';
 export class ComponentModalComponent {
 
 
-    constructor(public context: OverlayContext<any>) {
+    constructor(public ui: AppUIService, public context: OverlayContext<any>) {
 
     }
 

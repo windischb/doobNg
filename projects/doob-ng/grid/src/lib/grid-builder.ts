@@ -1,4 +1,4 @@
-import { GridOptions, GridReadyEvent, GridApi, MenuItemDef, RowClickedEvent, CellContextMenuEvent } from '@ag-grid-community/all-modules';
+import { GridOptions, GridReadyEvent, GridApi, MenuItemDef, RowClickedEvent, CellContextMenuEvent, RowDoubleClickedEvent, CellDoubleClickedEvent, CellClickedEvent } from '@ag-grid-community/all-modules';
 import { AgGridColumn } from '@ag-grid-community/angular/lib/ag-grid-column.component';
 import { GridColumn } from './grid-column';
 import { GridColumnBuilder } from './grid-column-builder';
@@ -93,6 +93,38 @@ export class GridBuilder<T = any> {
         }
         this.SetGridOptions({
             onCellContextMenu: event
+        })
+        return this;
+    }
+
+    OnRowDoubleClicked(value: ((event: RowDoubleClickedEvent) => void)) {
+
+        this.SetGridOptions({
+            onRowDoubleClicked: value
+        })
+        return this;
+    }
+
+    OnCellDoubleClicked(value: ((event: CellDoubleClickedEvent) => void)) {
+
+        this.SetGridOptions({
+            onCellDoubleClicked: value
+        })
+        return this;
+    }
+
+    OnRowClicked(value: ((event: RowClickedEvent) => void)) {
+
+        this.SetGridOptions({
+            onRowClicked: value
+        })
+        return this;
+    }
+
+    OnCellClicked(value: ((event: CellClickedEvent) => void)) {
+
+        this.SetGridOptions({
+            onCellClicked: value
         })
         return this;
     }
