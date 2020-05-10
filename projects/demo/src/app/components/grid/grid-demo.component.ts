@@ -16,9 +16,10 @@ export class GridDemoComponent {
     simpleGridSelected$ = new BehaviorSubject<any>(null);
     simpleGrid = new GridBuilder()
         .SetColumns(
-            c => c.DefaultColumn('make', "Name"),
-            c => c.DefaultColumn('model', "Model"),
-            c => c.DefaultColumn('price')
+            c => c.Default('make').SetValueFormatter<string>(v => v.value.toUpperCase()),
+            c => c.Label('model'),
+            c => c.Label('price'),
+            c => c.Date('date', true)
         )
         .SetGridOptions({
             rowSelection: 'multiple',
@@ -28,9 +29,9 @@ export class GridDemoComponent {
             }
         })
         .SetData([
-            { make: "Toyota", model: "Celica", price: 35000 },
-            { make: "Ford1", model: "Mondeo", price: 32000 },
-            { make: "Porsche", model: "Boxter", price: 72000 }
+            { make: "Toyota", model: "Celica", price: 35000, date: new Date() },
+            { make: "Ford1", model: "Mondeo", price: 32000, date: new Date() },
+            { make: "Porsche", model: "Boxter", price: 72000, date: new Date() },
         ])
         .OnCellContextMenu(event => {
             console.log(event)

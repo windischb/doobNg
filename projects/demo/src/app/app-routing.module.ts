@@ -9,6 +9,7 @@ import { MenuDemoComponent } from './components/menu/menu-demo.component';
 import { ToastDemoComponent } from './components/toast/toast-demo.component';
 import { GridDemoComponent } from './components/grid/grid-demo.component';
 import { ModelDemoComponent } from './components/modal/modal.component';
+import { OnKeyDemoComponent } from './directives/on-key/on-key-demo.component';
 
 
 const routes: Routes = [
@@ -48,6 +49,11 @@ const routes: Routes = [
         path: 'toast',
         component: ToastDemoComponent
     }
+    ,
+    {
+        path: 'on-key',
+        component: OnKeyDemoComponent
+    }
 ];
 
 export const RouteComponents = [
@@ -59,7 +65,8 @@ export const RouteComponents = [
     TabsDemoComponent,
     ToastDemoComponent,
     GridDemoComponent,
-    ModelDemoComponent
+    ModelDemoComponent,
+    OnKeyDemoComponent
 ]
 
 @NgModule({

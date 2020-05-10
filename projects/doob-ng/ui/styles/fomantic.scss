@@ -27,9 +27,7 @@ input[type="url"],
 .ui.checkbox:not(.toggle) label:before,
 .ui.label,
 .ui.menu,
-.ui.message,
-.ui.segment[class*="bottom attached"],
-.ui[class*="top attached"].segment {
+.ui.message {
   border-radius: 0.1rem !important;
 }
 
@@ -43,4 +41,12 @@ input[type="url"],
 
 .ui.secondary.vertical.menu > .item:last-child {
   border-radius: 0 0 0.1rem 0.1rem !important;
+}
+
+.ui[class*="top attached"].segment {
+    border-radius: 0.1rem 0.1rem 0 0  !important;
+}
+
+.ui.segment[class*="bottom attached"] {
+    border-radius: 0 0 0.1rem 0.1rem !important;
 }

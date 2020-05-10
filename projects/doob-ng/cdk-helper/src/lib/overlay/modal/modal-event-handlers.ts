@@ -1,3 +1,3 @@
 export class ModalEventHandlers {
-    [key: string]: ((data: any) => void);
+    [key: string]: ((data: any) => any);
 }

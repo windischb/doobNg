@@ -9,7 +9,7 @@ import { DoobEditorFile, DoobEditorOptions } from './models';
 import { DoobEditorStateService } from './services/editor-state.service';
 import { DoobEditorExtraLibsManager } from './services/editor-extra-libs-service';
 import { TypescriptOptions } from './models/typescript-options';
-import { GetFileExtension, GetDefaultExtensionForLanguage } from './file-extension-mapper';
+import { LanguageHelper } from './language-helper';
 
 @Component({
     selector: 'db-editor, [dbEditor]',
@@ -201,7 +201,7 @@ export class DoobEditorComponent implements OnInit, OnDestroy, ControlValueAcces
 
             let newModel = false;
 
-            const lang = GetFileExtension(model.Path) ? null : this.language;
+            const lang = LanguageHelper.GetFileExtension(model.Path) ? null : this.language;
 
 
             if (!codeModel) {
@@ -315,7 +315,7 @@ export class DoobEditorComponent implements OnInit, OnDestroy, ControlValueAcces
 
         let fName = this.fileName;
         if (language) {
-            var ext = GetDefaultExtensionForLanguage(language);
+            var ext = LanguageHelper.GetDefaultFileExtension(language);
             if (ext) {
                 fName = `${fName}.${ext}`;
             }
@@ -326,7 +326,7 @@ export class DoobEditorComponent implements OnInit, OnDestroy, ControlValueAcces
 
         this.codeModel = monaco.editor.getModel(uri);
 
-        const lang = GetFileExtension(this.fileName) ? null : language;
+        const lang = LanguageHelper.GetFileExtension(this.fileName) ? null : language;
 
 
         if (this.codeModel) {
@@ -363,7 +363,7 @@ export class DoobEditorComponent implements OnInit, OnDestroy, ControlValueAcces
         }
 
         let fName = this.fileName;
-        var ext = GetDefaultExtensionForLanguage(language);
+        var ext = LanguageHelper.GetDefaultFileExtension(language);
         if (ext) {
             fName = `${fName}.${ext}`;
         }

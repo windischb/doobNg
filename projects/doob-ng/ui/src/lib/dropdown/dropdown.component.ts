@@ -60,15 +60,13 @@ export class DoobDropdownComponent  implements ControlValueAccessor, OnInit {
         this.settings$.next(value);
     }
 
-    private _disabled = false;
-    disabled$ = new BehaviorSubject<boolean>(false);
+    @HostBinding('class.disabled') isDisabled: boolean = false;
     @Input()
     set disabled(value: boolean) {
-        this._disabled = value;
-        this.disabled$.next(value);
+        this.isDisabled = value;
     }
     get disabled() {
-        return this._disabled;
+        return this.isDisabled;
     }
 
 
@@ -183,7 +181,7 @@ export class DoobDropdownComponent  implements ControlValueAccessor, OnInit {
 
     propagateChange(value?: string) {
 
-        if (this.disabled) {
+        if (this.isDisabled) {
             return;
         }
 
@@ -233,8 +231,8 @@ export class DoobDropdownComponent  implements ControlValueAccessor, OnInit {
         this.onTouched = fn;
     }
 
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
+    setDisabledState?(disabled: boolean): void {
+        this.disabled = disabled;
     }
 
 

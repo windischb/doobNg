@@ -17,6 +17,6 @@ export class ToastDemoComponent {
 
     openDefault() {
 
-        this.toast.AddById("#toast");
+        this.toast.AddError({title: "Error", message: "Alles ok!"});
     }
 }

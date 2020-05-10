@@ -20,14 +20,19 @@ export class ComponentModal<T> {
         return this;
     }
 
-    AddEventHandler(key: string, handler: ((context: ModalEventHandlerContext) => void)) {
+    SetMetaData(value: any) {
+        this.overlayOptions.metaData = value;
+        return this;
+    }
+
+    AddEventHandler<THandler = any>(key: string, handler: ((context: ModalEventHandlerContext<THandler>) => any)) {
         this.overlayOptions.eventHandlers[key] = handler;
         return this;
     }
 
     CloseOnOutsideClick(value?: boolean) {
 
-        if(value === null || value === undefined) {
+        if (value === null || value === undefined) {
             value = true;
         }
 
@@ -35,8 +40,22 @@ export class ComponentModal<T> {
         return this;
     }
 
+    CloseOnEscape(value?: boolean) {
+        if (value === null || value === undefined) {
+            value = true;
+        }
+
+        this.overlayOptions.closeOnEsc = value;
+        return this;
+    }
+
     SetModalOptions(options: ComponentModalOptions) {
         this.componentModalOptions = options;
+        return this;
+    }
+
+    OnClose(action: () => void) {
+        this.overlayOptions.onClose = action;
         return this;
     }
 

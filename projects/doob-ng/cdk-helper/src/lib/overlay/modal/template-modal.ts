@@ -36,8 +36,22 @@ export class TemplateModal {
         return this;
     }
 
+    CloseOnEscape(value?: boolean) {
+        if (value === null || value === undefined) {
+            value = true;
+        }
+
+        this.overlayOptions.closeOnEsc = value;
+        return this;
+    }
+
     SetModalOptions(options: TemplateModalOptions) {
         this.templateModalOptions = options;
+        return this;
+    }
+
+    OnClose(action: () => void) {
+        this.overlayOptions.onClose = action;
         return this;
     }
 

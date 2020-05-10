@@ -1,4 +1,7 @@
 import { AgGridColumn } from '@ag-grid-community/angular';
+import { Type } from '@angular/core';
+import { ValueFormatterParams } from '@ag-grid-community/all-modules';
+import { DoobValueFormatterParams } from './DoobValueFormatterParams';
 
 export class GridColumn<T = any> {
 
@@ -18,13 +21,17 @@ export class GridColumn<T = any> {
 
     }
 
-    UseField(value: string): GridColumn {
+    static Create(field: string) {
+        return new GridColumn().SetField(field)
+    }
+
+    SetField(value: string): GridColumn {
         this.agGridColumn.field = value;
-        this.agGridColumn.headerName = this.agGridColumn.headerName || value;
+        this.agGridColumn.headerName = this.agGridColumn.headerName || this.Capitalized(value);
         return this;
     }
 
-    UseHeader(value: string): GridColumn {
+    SetHeader(value: string): GridColumn {
         this.agGridColumn.headerName = value;
         this.agGridColumn.field = this.agGridColumn.field || value;
         return this;
@@ -46,4 +53,50 @@ export class GridColumn<T = any> {
         return this;
     }
 
+    SetRenderer(value: string | Type<any>) {
+
+        if (value === null || value === undefined) {
+            return this;
+        }
+
+        if (typeof value === 'string') {
+            this.agGridColumn.cellRenderer = value;
+        }
+
+        if (value instanceof Type) {
+            this.agGridColumn.cellRendererFramework = value;
+        }
+
+        return this;
+    }
+
+    SetRendererParams(value: {}) {
+
+        this.agGridColumn.cellRendererParams = {
+            ...this.agGridColumn.cellRendererParams || {},
+            ...value
+        };
+        return this;
+    }
+
+    SetValueFormatter<TValue = any, TData = any, TContext = any>(formatter: ((value: DoobValueFormatterParams<TValue,TData,TContext>) => any)) {
+        this.agGridColumn.valueFormatter = formatter;
+        return this;
+    }
+
+    Set(set: ((column: AgGridColumn) => void)) {
+        set(this.agGridColumn);
+        return this;
+    }
+
+
+
+    private Capitalized(value: string) {
+        if (typeof value === 'string') {
+            return `${value.charAt(0).toUpperCase()}${value.slice(1)}`
+        }
+        return value;
+    }
+
 }
+

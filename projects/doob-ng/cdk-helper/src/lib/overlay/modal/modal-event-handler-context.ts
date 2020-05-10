@@ -1,5 +1,6 @@
-import { OverlayRef } from '@angular/cdk/overlay';
+
+import { IOverlayHandle } from '../overlay.service';
 export class ModalEventHandlerContext<T = any> {
     payload: T;
-    overlayRef: OverlayRef;
+    handle: IOverlayHandle;
 }

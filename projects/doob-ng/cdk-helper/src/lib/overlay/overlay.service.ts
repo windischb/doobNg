@@ -1,8 +1,8 @@
 import { Injectable, TemplateRef, ViewContainerRef, Type, Injector, ComponentRef, ComponentFactoryResolver } from "@angular/core";
 import { OverlayRef, Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { TemplatePortal, ComponentPortal, PortalInjector } from '@angular/cdk/portal';
-import { fromEvent, Subscription, merge } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { fromEvent, Subscription, merge, Subject } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { OverlayOptions } from './overlay-options';
 import { ModalEventHandlerContext } from "./modal/modal-event-handler-context";
 import { ModalEventHandlers } from "./modal/modal-event-handlers";
@@ -69,8 +69,8 @@ export class DoobOverlayService {
         const overlayRef = this.overlay.create(overlayConfig);
 
         var options = this.buildOverlayOptions(context);
-
-        const modalContext = new OverlayContext(overlayRef, options);
+        const handle = new ModalHandle(overlayRef, options);
+        const modalContext = new OverlayContext(handle, options);
 
         var tp = new TemplatePortal(templateRef, viewContainerRef, {
             $implicit: modalContext
@@ -78,7 +78,7 @@ export class DoobOverlayService {
 
         overlayRef.attach(tp);
 
-        return new ModalHandle(overlayRef, options);
+        return handle;
     }
 
     OpenComponentModal<T>(component: Type<T>, context: any, componentModalOptions?: ComponentModalOptions): IOverlayHandle {
@@ -98,18 +98,20 @@ export class DoobOverlayService {
         const overlayRef = this.overlay.create(overlayConfig);
 
         var options = this.buildOverlayOptions(context);
-        var cp = new ComponentPortal(component, null, this.createPortalInjector(overlayRef, options), componentModalOptions?.componentFactoryResolver || this.componentFactoryResolver);
+        const handle = new ModalHandle(overlayRef, options);
+
+        var cp = new ComponentPortal(component, null, this.createPortalInjector(options, handle), componentModalOptions?.componentFactoryResolver || this.componentFactoryResolver);
 
         overlayRef.attach(cp);
 
-        return new ModalHandle(overlayRef, options);
+        return handle
     }
 
-    private createPortalInjector<T>(overlayRef: OverlayRef, options: OverlayOptions<T>): PortalInjector {
+    private createPortalInjector<T>(options: OverlayOptions<T>, handle: IOverlayHandle): PortalInjector {
         const injectionTokens = new WeakMap();
 
 
-        const modalContext = new OverlayContext<T>(overlayRef, options);
+        const modalContext = new OverlayContext<T>(handle, options);
 
 
         injectionTokens.set(OverlayContext, modalContext);
@@ -138,26 +140,23 @@ export interface IOverlayHandle {
 }
 export class ContextMenuHandle implements IOverlayHandle {
 
-    private sub: Subscription
-
+    private closeDestroy$ = new Subject();
     constructor(private overlayRef: OverlayRef, templ: Array<HTMLElement>, excludeEvent: MouseEvent) {
-
-
-        this.sub = merge(fromEvent<MouseEvent>(document, 'click'), fromEvent<MouseEvent>(document, 'contextmenu'))
+        merge(fromEvent<MouseEvent>(document, 'click'), fromEvent<MouseEvent>(document, 'contextmenu'))
             .pipe(
+                takeUntil(this.closeDestroy$),
                 filter(ev => ev.type !== 'contextmenu' || (ev.x != excludeEvent.x && ev.y != excludeEvent.y)),
                 filter(event => {
                     const clickTarget = event.target as HTMLElement;
                     return !!this.overlayRef && !this.overlayRef.overlayElement.contains(clickTarget);
                 }),
-                take(1)
             ).subscribe(() => {
                 this.Close();
             })
     }
 
     Close() {
-        this.sub && this.sub.unsubscribe();
+        this.closeDestroy$.next();
         if (this.overlayRef) {
             this.overlayRef.dispose();
             this.overlayRef = null;
@@ -167,18 +166,31 @@ export class ContextMenuHandle implements IOverlayHandle {
 
 export class ModalHandle implements IOverlayHandle {
 
-    constructor(private overlayRef: OverlayRef, options: OverlayOptions) {
+    private closeDestroy$ = new Subject();
+    constructor(private overlayRef: OverlayRef, private options: OverlayOptions) {
 
         if (options.closeOnOutsideClick) {
             overlayRef.backdropClick()
                 .pipe(
-                    take(1)
+                    takeUntil(this.closeDestroy$)
+                )
+                .subscribe(() => this.Close())
+        }
+        if (options.closeOnEsc) {
+            overlayRef.keydownEvents()
+                .pipe(
+                    takeUntil(this.closeDestroy$),
+                    filter(ev => ev.keyCode === 27 )
                 )
                 .subscribe(() => this.Close())
         }
     }
 
     Close() {
+        this.closeDestroy$.next();
+        if(this.options.onClose) {
+            this.options.onClose();
+        }
         if (this.overlayRef) {
             this.overlayRef.dispose();
             this.overlayRef = null;
@@ -186,26 +198,28 @@ export class ModalHandle implements IOverlayHandle {
     }
 }
 
-export class OverlayContext<T = any> {
+export class OverlayContext<TData = any, TMeta = any> {
 
 
-    data: T;
+    data: TData;
     eventHandlers: ModalEventHandlers;
+    metaData:  TMeta;
 
-    constructor(public overlayRef: OverlayRef, context: OverlayOptions<T>) {
+    constructor(public handle: IOverlayHandle, context: OverlayOptions<TData, TMeta>) {
 
         this.data = context.data;
+        this.metaData = context.metaData;
         this.eventHandlers = context.eventHandlers;
 
     }
 
-    invoke(key: string, payload: any) {
+    invoke<TResult>(key: string, payload: any): TResult {
         if (this.eventHandlers[key]) {
 
             let eventContext = new ModalEventHandlerContext();
-            eventContext.overlayRef = this.overlayRef;
+            eventContext.handle = this.handle;
             eventContext.payload = payload;
-            this.eventHandlers[key](eventContext);
+            return this.eventHandlers[key](eventContext);
         }
     }
 

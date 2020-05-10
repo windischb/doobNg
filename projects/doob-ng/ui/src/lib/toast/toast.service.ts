@@ -19,24 +19,32 @@ export class DoobToastService {
     public Add(content: ToastContent, options?: ToastOptions) {
 
         const mergedOptions = {...this.defaultOptions, ...options,...content}
-        $('body').toast(mergedOptions);
+        return $('body').toast(mergedOptions);
     }
 
     public AddInfo(content: ToastContent, options?: ToastOptions) {
-        this.Add(content, {...options, class: "info"})
+        return this.Add(content, {...options, class: "info"})
     }
 
     public AddSuccess(content: ToastContent, options?: ToastOptions) {
-        this.Add(content, {...options, class: "success"})
+        return this.Add(content, {...options, class: "success"})
     }
 
     public AddWarning(content: ToastContent, options?: ToastOptions) {
-        this.Add(content, {...options, class: "warning"})
+        return this.Add(content, {...options, class: "warning"})
+    }
+
+    public AddError(content: ToastContent, options?: ToastOptions) {
+        return this.Add(content, {...options, class: "error"})
     }
 
     public AddById(id: string, options?: ToastOptions) {
         const mergedOptions = {...this.defaultOptions, ...options}
-        $(id).toast(mergedOptions);
+        return $(id).toast(mergedOptions);
+    }
+
+    public CloseToast(toast: any) {
+       toast?.toast('close')
     }
 }
 

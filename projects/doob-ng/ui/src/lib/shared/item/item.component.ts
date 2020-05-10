@@ -22,8 +22,8 @@ export class DoobItemComponent  extends DoobBaseItemComponent  {
     @Input() description: string;
     @Input() icon: string;
 
-    // @Input()
-    // @HostBinding('attr.data-value') value: any
+    @Input()
+    @HostBinding('attr.data-value') value: any
 
     constructor(public viewContainerRef: ViewContainerRef) {
         super()

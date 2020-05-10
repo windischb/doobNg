@@ -21,6 +21,7 @@ export class ModelDemoComponent {
         this.modal
             .FromTemplate(this.simpleModal, this.viewContainerRef)
             .CloseOnOutsideClick()
+            .CloseOnEscape()
             .Open();
         //this.overlay.OpenTemplateRefModal(this.simpleModal, this.viewContainerRef, {});
     }
@@ -32,10 +33,14 @@ export class ModelDemoComponent {
                 name: "Bernhard"
             })
             .SetModalOptions({
-                componentFactoryResolver: this.componentFactoryResolver
+                componentFactoryResolver: this.componentFactoryResolver,
+                overlayConfig: {
+                    width: "50%"
+                }
             })
             .AddEventHandler("Log", (ct) => alert(`${ct.payload}`))
             .CloseOnOutsideClick()
+            .CloseOnEscape()
             .Open();
 
     }
