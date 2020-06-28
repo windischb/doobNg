@@ -15,9 +15,7 @@
     "build:cdk-helper": "ng build @doob-ng/cdk-helper --prod",
     "build:grid": "ng build @doob-ng/grid --prod",
     "publish:core": "npm publish ./dist/doob-ng/core --access public",
-    "publish:ui": "npm publish ./dist/doob-ng/ui --access public",
     "publish:editor": "npm publish ./dist/doob-ng/editor --access public",
-    "publish:prism": "npm publish ./dist/doob-ng/prism --access public",
     "publish:cdk-helper": "npm publish ./dist/doob-ng/cdk-helper --access public",
     "publish:grid": "npm publish ./dist/doob-ng/grid --access public",
     "deploy:demo": "ng deploy --base-href=/doobNg/"
@@ -35,11 +33,7 @@
     "@angular/platform-browser": "~9.1.0",
     "@angular/platform-browser-dynamic": "~9.1.0",
     "@angular/router": "~9.1.0",
-    "@types/prismjs": "^1.16.0",
-    "fomantic-ui": "^2.8.4",
-    "jquery": "^3.4.1",
     "monaco-editor": "^0.20.0",
-    "prismjs": "^1.19.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

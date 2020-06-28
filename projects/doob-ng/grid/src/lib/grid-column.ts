@@ -45,6 +45,14 @@ export class GridColumn<T = any> {
         return this;
     }
 
+    Editable(value?: boolean): GridColumn {
+        if(value === null || value === undefined) {
+            value = true;
+        }
+        this.agGridColumn.editable = value;
+        return this;
+    }
+
     Sortable(value?: boolean): GridColumn {
         if(value === null || value === undefined) {
             value = true;

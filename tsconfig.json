@@ -24,14 +24,6 @@
         "projects/doob-ng/core/doob-ng-core",
         "projects/doob-ng/core"
       ],
-      "@doob-ng/ui": [
-        "dist/doob-ng/ui/doob-ng-ui",
-        "dist/doob-ng/ui"
-      ],
-      "@local/ui": [
-        "projects/doob-ng/ui/doob-ng-ui",
-        "projects/doob-ng/ui"
-      ],
       "@doob-ng/editor": [
         "dist/doob-ng/editor/doob-ng-editor",
         "dist/doob-ng/editor"
@@ -39,14 +31,6 @@
       "@local/editor": [
         "projects/doob-ng/editor/doob-ng-editor",
         "projects/doob-ng/editor"
-      ],
-      "@doob-ng/prism": [
-        "dist/doob-ng/prism/doob-ng-prism",
-        "dist/doob-ng/prism"
-      ],
-      "@local/prism": [
-        "projects/doob-ng/prism/doob-ng-prism",
-        "projects/doob-ng/prism"
       ],
       "@doob-ng/cdk-helper": [
         "dist/doob-ng/cdk-helper/doob-ng-cdk-helper",
