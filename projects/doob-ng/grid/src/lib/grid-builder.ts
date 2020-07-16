@@ -1,8 +1,9 @@
-import { GridOptions, GridReadyEvent, GridApi, MenuItemDef, RowClickedEvent, CellContextMenuEvent, RowDoubleClickedEvent, CellDoubleClickedEvent, CellClickedEvent } from '@ag-grid-community/all-modules';
+import { GridOptions, GridReadyEvent, GridApi, MenuItemDef, RowClickedEvent, CellContextMenuEvent, RowDoubleClickedEvent, CellDoubleClickedEvent, CellClickedEvent, ModelUpdatedEvent, GridSizeChangedEvent } from '@ag-grid-community/all-modules';
 import { AgGridColumn } from '@ag-grid-community/angular/lib/ag-grid-column.component';
 import { GridColumn } from './grid-column';
 import { GridColumnBuilder } from './grid-column-builder';
 import { AgGridAngular } from '@ag-grid-community/angular';
+import { Observable, isObservable } from 'rxjs';
 
 export class GridBuilder<T = any> {
 
@@ -12,6 +13,7 @@ export class GridBuilder<T = any> {
 
     private BuilderOptions = new GridBuilderOptions();
 
+    private DataObservable$: Observable<T[]>;
     constructor(options?: GridOptions) {
         this._options = options || this.NewDefaultOptions();
     }
@@ -21,7 +23,7 @@ export class GridBuilder<T = any> {
         return {
             onGridReady: (event: GridReadyEvent) => {
                 event.api.sizeColumnsToFit();
-                if(this.tempApi) {
+                if (this.tempApi) {
                     this.tempApi(event.api);
                     this.tempApi = null;
                 }
@@ -50,16 +52,24 @@ export class GridBuilder<T = any> {
         return this;
     }
 
-    SetData(data: T[]) {
-        if(this.grid && this.grid.api) {
-            this.grid.api.setRowData(data);
+    SetData(data: T[] | Observable<T[]>) {
+
+        if(isObservable(data)) {
+            this.DataObservable$ = data;
         } else {
-            this.SetGridOptions({
-                rowData: data
-            })
+            if (this.grid && this.grid.api) {
+                this.grid.api.setRowData(data);
+            } else {
+                this.SetGridOptions({
+                    rowData: data
+                })
+            }
         }
+        
         return this;
     }
+
+
 
     SetGridOptions(options: GridOptions) {
         this._options = {
@@ -74,7 +84,7 @@ export class GridBuilder<T = any> {
     }
 
     SetGridApi(value: (api: GridApi) => void) {
-        if(this.grid && this.grid.api){
+        if (this.grid && this.grid.api) {
             value(this.grid.api)
         } else {
             this.tempApi = value;
@@ -86,7 +96,7 @@ export class GridBuilder<T = any> {
 
         const event = (event: CellContextMenuEvent) => {
             const mEvent = event.event as MouseEvent;
-            if(mEvent.ctrlKey) {
+            if (mEvent.ctrlKey) {
                 return;
             }
             value(event);
@@ -134,6 +144,90 @@ export class GridBuilder<T = any> {
         return this;
     }
 
+    OnViewPortClick(value: (($event: MouseEvent, gridApi: GridApi) => void)) {
+        this.BuilderOptions.OnViewPortClick = value;
+        return this;
+    }
+
+    OnDataUpdate(value: ((data: Array<T>, event: ModelUpdatedEvent) => void)) {
+
+        this.SetGridOptions({
+            onModelUpdated: (event: ModelUpdatedEvent) => {
+
+                let items: Array<T> = [];
+                event.api.forEachNode(function (node) {
+                    items.push(node.data);
+                });
+
+                value(items, event);
+            }
+        })
+        return this;
+    }
+
+    WithRowSelection(value: "single" | "multiple" ) {
+        this.SetGridOptions({
+            rowSelection: value,
+            rowDeselection: value == "multiple"
+        })
+        return this;
+    }
+
+    WithFullRowEditType(value?: boolean) {
+        if(value === null || value === undefined) {
+            value = true;
+        }
+        this.SetGridOptions({
+            editType: value ? "fullRow" : null,
+        })
+        return this;
+    }
+
+    WithShiftResizeMode(value?: boolean) {
+        if(value === null || value === undefined) {
+            value = true;
+        }
+        this.SetGridOptions({
+            colResizeDefault: value ? "shift" : null,
+        })
+        return this;
+    }
+    StopEditingWhenGridLosesFocus(value?: boolean) {
+        if(value === null || value === undefined) {
+            value = true;
+        }
+        this.SetGridOptions({
+            stopEditingWhenGridLosesFocus: value
+        })
+        return this;
+    }
+
+    OnGridSizeChange(value: ((event: GridSizeChangedEvent) => void)) {
+        this.SetGridOptions({
+            onGridSizeChanged: value
+        })
+        return this;
+    }
+
+    SetDataImmutable(getNodeId?: (data: T) => any) {
+        this.SetGridOptions({
+            immutableData: true
+        })
+        if(getNodeId) {
+            this.SetGridOptions({
+                getRowNodeId: getNodeId
+            })
+        }
+        return this;
+    }
+
+    SetRowClassRules(rules: {}) {
+        this.SetGridOptions({
+            rowClassRules: rules
+        });
+        return this;
+    }
+
     _internalSetGrid(grid: AgGridAngular) {
         this.grid = grid;
     }
@@ -144,4 +238,5 @@ export class GridBuilder<T = any> {
 export class GridBuilderOptions {
 
     OnViewPortContextMenu: (($event: MouseEvent, gridApi: GridApi) => void);
+    OnViewPortClick: (($event: MouseEvent, gridApi: GridApi) => void);
 }

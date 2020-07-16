@@ -61,6 +61,23 @@ export class GridColumn<T = any> {
         return this;
     }
 
+    SetInitialWidth(px: number, suppressSizeToFit?: boolean) {
+        this.agGridColumn.width = px;
+        if(suppressSizeToFit != undefined)
+            this.SuppressSizeToFit(suppressSizeToFit)
+        return this;
+    }
+
+    SetMinWidth(px: number) {
+        this.agGridColumn.minWidth = px;
+        return this;
+    }
+
+    SetMaxWidth(px: number) {
+        this.agGridColumn.maxWidth = px;
+        return this;
+    }
+
     SetRenderer(value: string | Type<any>) {
 
         if (value === null || value === undefined) {
@@ -97,6 +114,13 @@ export class GridColumn<T = any> {
         return this;
     }
 
+    SuppressSizeToFit(value?: boolean): GridColumn {
+        if(value === null || value === undefined) {
+            value = true;
+        }
+        this.agGridColumn.suppressSizeToFit = value;
+        return this;
+    }
 
 
     private Capitalized(value: string) {

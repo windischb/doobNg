@@ -47,6 +47,10 @@
       "@local/grid": [
         "projects/doob-ng/grid/doob-ng-grid",
         "projects/doob-ng/grid"
+      ],
+      "@doob-ng/antd-extensions": [
+        "dist/doob-ng/antd-extensions/doob-ng-antd-extensions",
+        "dist/doob-ng/antd-extensions"
       ]
     }
   },
