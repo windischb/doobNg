@@ -49,14 +49,19 @@ export class MonacoLoaderService {
         }
     }
 
-    private completionProvider: monaco.IDisposable;
+    private completionProviders: Array<monaco.IDisposable> = [];
 
-    public SetCompletionProvider(language: string, provider: monaco.languages.CompletionItemProvider) {
+    public AddCompletionProvider(language: string, provider: monaco.languages.CompletionItemProvider) {
 
-        if (this.completionProvider) {
-            this.completionProvider.dispose();
+        if (!this.completionProviders) {
+            this.completionProviders = [];
         }
 
-        this.completionProvider = monaco.languages.registerCompletionItemProvider(language, provider);
+        this.completionProviders.push(monaco.languages.registerCompletionItemProvider(language, provider));
+    }
+
+    public ResetCompletionProviders() {
+        this.completionProviders?.forEach(c => c.dispose());
+        this.completionProviders = [];
     }
 }

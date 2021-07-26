@@ -138,8 +138,7 @@
               "projects/demo/src/styles.scss"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "semantic/dist/semantic.js"
+              "node_modules/jquery/dist/jquery.min.js"
             ]
           },
           "configurations": {
@@ -358,7 +357,133 @@
           }
         }
       }
+    },
+    "editortest": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/editortest",
+      "sourceRoot": "projects/editortest/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/editortest",
+            "index": "projects/editortest/src/index.html",
+            "main": "projects/editortest/src/main.ts",
+            "polyfills": "projects/editortest/src/polyfills.ts",
+            "tsConfig": "projects/editortest/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/editortest/src/favicon.ico",
+              "projects/editortest/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/monaco-editor/min",
+                "output": "./assets/monaco-editor"
+              }
+            ],
+            "styles": [
+              "projects/editortest/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/editortest/src/environments/environment.ts",
+                  "with": "projects/editortest/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "editortest:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "editortest:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "editortest:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/editortest/src/test.ts",
+            "polyfills": "projects/editortest/src/polyfills.ts",
+            "tsConfig": "projects/editortest/tsconfig.spec.json",
+            "karmaConfig": "projects/editortest/karma.conf.js",
+            "assets": [
+              "projects/editortest/src/favicon.ico",
+              "projects/editortest/src/assets"
+            ],
+            "styles": [
+              "projects/editortest/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/editortest/tsconfig.app.json",
+              "projects/editortest/tsconfig.spec.json",
+              "projects/editortest/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/editortest/e2e/protractor.conf.js",
+            "devServerTarget": "editortest:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "editortest:serve:production"
+            }
+          }
+        }
+      }
     }
   },
-  "defaultProject": "demo"
+  "defaultProject": "editortest"
 }

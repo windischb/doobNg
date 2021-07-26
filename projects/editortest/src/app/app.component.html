@@ -1,0 +1,6 @@
+<form [formGroup]="form" class="flex-grow-column" style="width: 100%;">
+  <db-editor formControlName="SourceCode" [language]="form.value.Language" [typings]="(typings$ | async)"
+    [files]="(imports$ | async)" [tsOptions]="{noLib: true}" style="max-width: 100%;
+height: 500px;position:relative">
+  </db-editor>
+</form>

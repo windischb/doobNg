@@ -271,6 +271,294 @@ export class DoobEditorComponent implements OnInit, OnDestroy, ControlValueAcces
 
     }
 
+    SetCompletionProviders() {
+        this.monacoLoader.ResetCompletionProviders();
+
+        this.monacoLoader.AddCompletionProvider("typescript", this.ImportCompletion());
+        this.monacoLoader.AddCompletionProvider("typescript", this.ImportAtCompletion());
+        this.monacoLoader.AddCompletionProvider("typescript", this.ImportStarCompletion());
+    }
+    ImportCompletion() {
+
+
+        return <monaco.languages.CompletionItemProvider>{
+            // These characters should trigger our `provideCompletionItems` function
+            triggerCharacters: ['\'', '"', '.', '/', '\t'],
+            // Function which returns a list of autocompletion ietems. If we return an empty array, there won't be any autocompletion.
+            provideCompletionItems: (model, position, context, token) => {
+                const textUntilPosition = model.getValueInRange({
+                    startLineNumber: 1,
+                    startColumn: 1,
+                    endLineNumber: position.lineNumber,
+                    endColumn: position.column,
+                });
+
+
+                if (/(([\s|\n]+from\s+)|(\brequire\b\s*\())["|'][^'^"]*$/.test(textUntilPosition)) {
+
+                    // It's probably a `import` statement or `require` call
+
+                    // User is trying to import a file
+                    const typedBeginPosition = textUntilPosition.lastIndexOf('\'');
+                    const typed = textUntilPosition.substring(typedBeginPosition);
+                    const currentModel = this._editor.getModel();
+
+
+                    let uris = monaco.editor.getModels()
+                        .filter(m => m !== currentModel)
+                        .filter(m => {
+                            return m.uri.path.startsWith(`/${typed.substring(1)}`)
+                        })
+                        .map(m => {
+
+                            let filePath = m.uri.path.substring(1);
+
+                            filePath = filePath.slice(typed.length - 1);
+                            const parts = filePath.split('/');
+
+                            return parts[0];
+
+                        }).filter(Boolean);
+
+
+                    return <monaco.languages.ProviderResult<monaco.languages.CompletionList>>{
+
+                        suggestions: Array.from(new Set(uris))
+                            .map(file => {
+                                let type = monaco.languages.CompletionItemKind.Folder;
+
+                                let filepath = file;
+                                if (file.endsWith('.d.ts')) {
+                                    type = monaco.languages.CompletionItemKind.Module;
+                                    filepath = file.slice(0, -5)
+                                } else if (file.endsWith('.ts')) {
+                                    type = monaco.languages.CompletionItemKind.Module;
+                                    filepath = file.slice(0, -3)
+                                } else if (file.endsWith('.json')) {
+                                    type = monaco.languages.CompletionItemKind.Text;
+                                } else if (file.endsWith('.xml')) {
+                                    type = monaco.languages.CompletionItemKind.Text;
+                                } else if (file.indexOf('.') !== -1) {
+                                    type = monaco.languages.CompletionItemKind.File;
+                                }
+
+
+                                // Only show files that match the prefix typed by user
+                                return {
+                                    // Show the full file path for label
+                                    label: filepath,
+                                    // Don't keep extension for JS files
+                                    insertText: filepath,
+                                    kind: type
+
+                                };
+
+                            })
+
+                            .filter(Boolean)
+                    };
+
+                }
+                // return <monaco.languages.ProviderResult<monaco.languages.CompletionList>>{
+                // suggestions: [
+                //         {
+                //             label: '"options"',
+                //             kind: monaco.languages.CompletionItemKind.Function,
+                //             insertText: '"${1:option1}": "${2:option2}"',
+                //             insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
+                //         }
+                //     ]
+                // };
+            },
+        }
+    }
+
+    ImportAtCompletion() {
+
+
+        return <monaco.languages.CompletionItemProvider>{
+            // These characters should trigger our `provideCompletionItems` function
+            triggerCharacters: ['@'],
+            // Function which returns a list of autocompletion ietems. If we return an empty array, there won't be any autocompletion.
+            provideCompletionItems: (model, position, context, token) => {
+                const textUntilPosition = model.getValueInRange({
+                    startLineNumber: position.lineNumber,
+                    startColumn: 1,
+                    endLineNumber: position.lineNumber,
+                    endColumn: position.column,
+                });
+
+
+                if (/^@*$/.test(textUntilPosition)) {
+
+                    // It's probably a `import` statement or `require` call
+
+                    // User is trying to import a file
+                    const typedBeginPosition = textUntilPosition.lastIndexOf('\'');
+                    const typed = textUntilPosition.substring(typedBeginPosition);
+                    const currentModel = this._editor.getModel();
+
+
+                    let uris = monaco.editor.getModels()
+                        .filter(m => m !== currentModel)
+                        .filter(m => {
+                            return m.uri.path.startsWith(`/${typed.substring(1)}`)
+                        })
+                        .map(m => {
+
+                            let filePath = m.uri.path.substring(1);
+
+                            filePath = filePath.slice(typed.length - 1);
+                            const parts = filePath.split('/');
+
+                            return parts[0];
+
+                        }).filter(Boolean);
+
+
+                    return <monaco.languages.ProviderResult<monaco.languages.CompletionList>>{
+
+                        suggestions: Array.from(new Set(uris))
+                            .map(file => {
+                                let type = monaco.languages.CompletionItemKind.Folder;
+
+                                let filepath = file;
+                                if (file.endsWith('.d.ts')) {
+                                    type = monaco.languages.CompletionItemKind.Module;
+                                    filepath = file.slice(0, -5)
+                                } else if (file.endsWith('.ts')) {
+                                    type = monaco.languages.CompletionItemKind.Module;
+                                    filepath = file.slice(0, -3)
+                                } else if (file.endsWith('.json')) {
+                                    type = monaco.languages.CompletionItemKind.Text;
+                                } else if (file.endsWith('.xml')) {
+                                    type = monaco.languages.CompletionItemKind.Text;
+                                } else if (file.indexOf('.') !== -1) {
+                                    type = monaco.languages.CompletionItemKind.File;
+                                }
+
+                                var r = {
+                                    startLineNumber: position.lineNumber,
+                                    startColumn: 1,
+                                    endLineNumber: position.lineNumber,
+                                    endColumn: position.column,
+                                }
+                                // Only show files that match the prefix typed by user
+                                return [
+                                    {
+                                        // Show the full file path for label
+                                        label: filepath,
+                                        // Don't keep extension for JS files
+                                        insertText: "import { ${1} } from " + `'${filepath}';`,
+                                        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                                        kind: type,
+                                        additionalTextEdits: [<monaco.editor.ISingleEditOperation>{ range: { ...r, startColumn: 0 } }]
+                                    }
+                                ];
+                            })
+
+                            .filter(Boolean).reduce((accumulator, value) => accumulator.concat(value), [])
+                    };
+
+                }
+
+            },
+        }
+    }
+
+    ImportStarCompletion() {
+
+
+        return <monaco.languages.CompletionItemProvider>{
+            // These characters should trigger our `provideCompletionItems` function
+            triggerCharacters: ['*'],
+            // Function which returns a list of autocompletion ietems. If we return an empty array, there won't be any autocompletion.
+            provideCompletionItems: (model, position, context, token) => {
+                const textUntilPosition = model.getValueInRange({
+                    startLineNumber: position.lineNumber,
+                    startColumn: 1,
+                    endLineNumber: position.lineNumber,
+                    endColumn: position.column,
+                });
+
+
+                if (/^\**$/.test(textUntilPosition)) {
+
+                    // It's probably a `import` statement or `require` call
+
+                    // User is trying to import a file
+                    const typedBeginPosition = textUntilPosition.lastIndexOf('\'');
+                    const typed = textUntilPosition.substring(typedBeginPosition);
+                    const currentModel = this._editor.getModel();
+
+
+                    let uris = monaco.editor.getModels()
+                        .filter(m => m !== currentModel)
+                        .filter(m => {
+                            return m.uri.path.startsWith(`/${typed.substring(1)}`)
+                        })
+                        .map(m => {
+
+                            let filePath = m.uri.path.substring(1);
+
+                            filePath = filePath.slice(typed.length - 1);
+                            const parts = filePath.split('/');
+
+                            return parts[0];
+
+                        }).filter(Boolean);
+
+
+                    return <monaco.languages.ProviderResult<monaco.languages.CompletionList>>{
+
+                        suggestions: Array.from(new Set(uris))
+                            .map(file => {
+                                let type = monaco.languages.CompletionItemKind.Folder;
+
+                                let filepath = file;
+                                if (file.endsWith('.d.ts')) {
+                                    type = monaco.languages.CompletionItemKind.Module;
+                                    filepath = file.slice(0, -5)
+                                } else if (file.endsWith('.ts')) {
+                                    type = monaco.languages.CompletionItemKind.Module;
+                                    filepath = file.slice(0, -3)
+                                } else if (file.endsWith('.json')) {
+                                    type = monaco.languages.CompletionItemKind.Text;
+                                } else if (file.endsWith('.xml')) {
+                                    type = monaco.languages.CompletionItemKind.Text;
+                                } else if (file.indexOf('.') !== -1) {
+                                    type = monaco.languages.CompletionItemKind.File;
+                                }
+
+                                var r = {
+                                    startLineNumber: position.lineNumber,
+                                    startColumn: 1,
+                                    endLineNumber: position.lineNumber,
+                                    endColumn: position.column,
+                                }
+                                // Only show files that match the prefix typed by user
+                                return [
+                                    {
+                                        // Show the full file path for label
+                                        label: `* as ${filepath}`,
+                                        // Don't keep extension for JS files
+                                        insertText: "import * as ${1} from " + `'${filepath}';`,
+                                        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                                        kind: type,
+                                        additionalTextEdits: [<monaco.editor.ISingleEditOperation>{ range: { ...r, startColumn: 0 } }]
+                                    }
+                                ];
+                            })
+
+                            .filter(Boolean).reduce((accumulator, value) => accumulator.concat(value), [])
+                    };
+
+                }
+
+            },
+        }
+    }
+
     public SelectFile(path: string) {
 
         const lastModel = this._editor.getModel();
@@ -447,6 +735,8 @@ export class DoobEditorComponent implements OnInit, OnDestroy, ControlValueAcces
                 this.activeFile.next(null);
             }
         });
+
+        this.SetCompletionProviders();
 
         if (this.editorOptions && this.editorOptions.OnSave) {
             editor.addAction({

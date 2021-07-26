@@ -1,4 +1,4 @@
-import { Directive, ContentChildren, QueryList, AfterContentInit, OnDestroy, Input, Output, EventEmitter } from "@angular/core";
+import { Directive, ContentChildren, QueryList, AfterContentInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectorRef } from "@angular/core";
 import { NzCheckboxComponent } from 'ng-zorro-antd/checkbox';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject, BehaviorSubject, Observable, merge, of, combineLatest } from 'rxjs';
@@ -20,7 +20,7 @@ export class DoobCheckBoxGroup implements ControlValueAccessor, AfterContentInit
 
     private autoType: 'string' | 'array' | 'object';
 
-    private _value: string | Array<string> | Object;
+    private _value: string | Array<string> | Object = null;
     @Input() set value(value: string | Array<string> | Object) {
         this._value = value;
         this.values$.next(value);
@@ -32,7 +32,7 @@ export class DoobCheckBoxGroup implements ControlValueAccessor, AfterContentInit
 
     
     @ContentChildren(NzCheckboxComponent, { descendants: true }) childCheckboxesQueryList: QueryList<NzCheckboxComponent>;
-    constructor() {
+    constructor(private cref: ChangeDetectorRef) {
 
     }
 
@@ -89,9 +89,9 @@ export class DoobCheckBoxGroup implements ControlValueAccessor, AfterContentInit
 
                 boxes.forEach(box => {
                     if (objectKeys.indexOf(box.nzValue) !== -1) {
-                        box.nzChecked = valueObj[box.nzValue];
+                        box.writeValue(valueObj[box.nzValue]);
                     } else {
-                        box.nzChecked = false;
+                        box.writeValue(false);
                     }
 
                 });
@@ -166,6 +166,8 @@ export class DoobCheckBoxGroup implements ControlValueAccessor, AfterContentInit
         this.registered.forEach(fn => {
             fn(emitValue);
         });
+
+        this.cref.detectChanges();
     }
 
 

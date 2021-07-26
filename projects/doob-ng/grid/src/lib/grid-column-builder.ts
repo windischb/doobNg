@@ -26,5 +26,6 @@ export class GridColumnBuilder<T = any> {
             .Sortable()
     }
 
-
 }
+
+

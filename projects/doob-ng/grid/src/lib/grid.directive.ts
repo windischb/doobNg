@@ -1,9 +1,8 @@
 import { Directive, Input, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { AgGridAngular } from "@ag-grid-community/angular";
 import { GridBuilder, GridBuilderOptions } from './grid-builder';
-import { GridOptions } from '@ag-grid-community/all-modules';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 @Directive({
     selector: 'ag-grid-angular[dbGrid]',

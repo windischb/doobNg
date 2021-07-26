@@ -1,6 +1,6 @@
 import { AgGridColumn } from '@ag-grid-community/angular';
 import { Type } from '@angular/core';
-import { ValueFormatterParams } from '@ag-grid-community/all-modules';
+import { CellClassParams } from '@ag-grid-community/all-modules';
 import { DoobValueFormatterParams } from './DoobValueFormatterParams';
 
 export class GridColumn<T = any> {
@@ -9,8 +9,8 @@ export class GridColumn<T = any> {
 
     constructor(column?: GridColumn | AgGridColumn) {
 
-        if(column){
-            if(column instanceof GridColumn) {
+        if (column) {
+            if (column instanceof GridColumn) {
                 this.agGridColumn = column.agGridColumn;
             } else {
                 this.agGridColumn = column;
@@ -37,8 +37,45 @@ export class GridColumn<T = any> {
         return this;
     }
 
+    SetLeftFixed(value?: boolean) {
+
+        if (value === null || value === undefined) {
+            value = true;
+        }
+
+        this.SetPinned('left');
+        this.SetLockPinned();
+        this.SetLockPosition();
+
+        return this;
+    }
+
+    SetPinned(value?: 'left' | 'right' | 'none') {
+
+        this.agGridColumn.pinned = value === 'none' ? null : value;
+        return this;
+    }
+
+    SetLockPosition(value?: boolean) {
+        if (value === null || value === undefined) {
+            value = true;
+        }
+
+        this.agGridColumn.lockPosition = value;
+        return this;
+    }
+
+    SetLockPinned(value?: boolean) {
+        if (value === null || value === undefined) {
+            value = true;
+        }
+
+        this.agGridColumn.lockPinned = value;
+        return this;
+    }
+
     Resizeable(value?: boolean): GridColumn {
-        if(value === null || value === undefined) {
+        if (value === null || value === undefined) {
             value = true;
         }
         this.agGridColumn.resizable = value;
@@ -46,7 +83,7 @@ export class GridColumn<T = any> {
     }
 
     Editable(value?: boolean): GridColumn {
-        if(value === null || value === undefined) {
+        if (value === null || value === undefined) {
             value = true;
         }
         this.agGridColumn.editable = value;
@@ -54,7 +91,7 @@ export class GridColumn<T = any> {
     }
 
     Sortable(value?: boolean): GridColumn {
-        if(value === null || value === undefined) {
+        if (value === null || value === undefined) {
             value = true;
         }
         this.agGridColumn.sortable = value;
@@ -63,7 +100,7 @@ export class GridColumn<T = any> {
 
     SetInitialWidth(px: number, suppressSizeToFit?: boolean) {
         this.agGridColumn.width = px;
-        if(suppressSizeToFit != undefined)
+        if (suppressSizeToFit != undefined)
             this.SuppressSizeToFit(suppressSizeToFit)
         return this;
     }
@@ -75,6 +112,16 @@ export class GridColumn<T = any> {
 
     SetMaxWidth(px: number) {
         this.agGridColumn.maxWidth = px;
+        return this;
+    }
+
+    SetFixedWidth(value: number) {
+
+        this.SetInitialWidth(value);
+        this.SetMinWidth(value);
+        this.SetMaxWidth(value);
+        this.Resizeable(false);
+        this.SuppressSizeToFit(true);
         return this;
     }
 
@@ -95,6 +142,27 @@ export class GridColumn<T = any> {
         return this;
     }
 
+    SetCssStyle(value: {} | ((params: CellClassParams) => {})) {
+        this.agGridColumn.cellStyle = value;
+        return this;
+    }
+
+    SetCssClass(value: string | string[] | ((params: CellClassParams) => string | string[])) {
+        this.agGridColumn.cellClass = value;
+        return this;
+    }
+
+
+    AddClassRule(className: string, value: string | ((params: CellClassParams) => boolean)) {
+
+        if (this.agGridColumn.cellClassRules == null || this.agGridColumn.cellClassRules == undefined) {
+            this.agGridColumn.cellClassRules = {}
+        }
+        this.agGridColumn.cellClassRules[className] = value;
+
+        return this;
+    }
+
     SetRendererParams(value: {}) {
 
         this.agGridColumn.cellRendererParams = {
@@ -104,7 +172,7 @@ export class GridColumn<T = any> {
         return this;
     }
 
-    SetValueFormatter<TValue = any, TData = any, TContext = any>(formatter: ((value: DoobValueFormatterParams<TValue,TData,TContext>) => any)) {
+    SetValueFormatter<TValue = any, TData = any, TContext = any>(formatter: ((value: DoobValueFormatterParams<TValue, TData, TContext>) => any)) {
         this.agGridColumn.valueFormatter = formatter;
         return this;
     }
@@ -115,10 +183,18 @@ export class GridColumn<T = any> {
     }
 
     SuppressSizeToFit(value?: boolean): GridColumn {
-        if(value === null || value === undefined) {
+        if (value === null || value === undefined) {
             value = true;
         }
         this.agGridColumn.suppressSizeToFit = value;
+        return this;
+    }
+
+    SetHidden(value?: boolean) {
+        if (value === null || value === undefined) {
+            value = true;
+        }
+        this.agGridColumn.hide = value;
         return this;
     }
 

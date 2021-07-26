@@ -41,7 +41,7 @@ export class DoobOverlayService {
 
         const overlayRef = this.overlay.create({
             positionStrategy,
-            scrollStrategy: this.overlay.scrollStrategies.close(),
+            scrollStrategy: this.overlay.scrollStrategies.noop(),
         });
         var tp = new TemplatePortal(templateRef, viewContainerRef, {
             $implicit: context
@@ -61,7 +61,7 @@ export class DoobOverlayService {
 
         let overlayConfig: OverlayConfig = {
             positionStrategy,
-            scrollStrategy: this.overlay.scrollStrategies.close(),
+            scrollStrategy: this.overlay.scrollStrategies.noop(),
             hasBackdrop: true,
             ...templateModalOptions?.overlayConfig
         }
@@ -90,7 +90,7 @@ export class DoobOverlayService {
 
         let overlayConfig: OverlayConfig = {
             positionStrategy,
-            scrollStrategy: this.overlay.scrollStrategies.close(),
+            scrollStrategy: this.overlay.scrollStrategies.noop(),
             hasBackdrop: true,
             ...componentModalOptions?.overlayConfig
         }
@@ -192,6 +192,7 @@ export class ModalHandle implements IOverlayHandle {
             this.options.onClose();
         }
         if (this.overlayRef) {
+            console.log("OverlayRef - Dispose")
             this.overlayRef.dispose();
             this.overlayRef = null;
         }

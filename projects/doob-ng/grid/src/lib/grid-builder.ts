@@ -1,5 +1,5 @@
 import { GridOptions, GridReadyEvent, GridApi, MenuItemDef, RowClickedEvent, CellContextMenuEvent, RowDoubleClickedEvent, CellDoubleClickedEvent, CellClickedEvent, ModelUpdatedEvent, GridSizeChangedEvent } from '@ag-grid-community/all-modules';
-import { AgGridColumn } from '@ag-grid-community/angular/lib/ag-grid-column.component';
+import { AgGridColumn } from '@ag-grid-community/angular';
 import { GridColumn } from './grid-column';
 import { GridColumnBuilder } from './grid-column-builder';
 import { AgGridAngular } from '@ag-grid-community/angular';
@@ -54,7 +54,7 @@ export class GridBuilder<T = any> {
 
     SetData(data: T[] | Observable<T[]>) {
 
-        if(isObservable(data)) {
+        if (isObservable(data)) {
             this.DataObservable$ = data;
         } else {
             if (this.grid && this.grid.api) {
@@ -65,7 +65,7 @@ export class GridBuilder<T = any> {
                 })
             }
         }
-        
+
         return this;
     }
 
@@ -90,6 +90,34 @@ export class GridBuilder<T = any> {
             this.tempApi = value;
         }
         return this;
+    }
+
+    GetGridApi() {
+        if (this.grid && this.grid.api) {
+            return this.grid.api
+        }
+        return null;
+    }
+
+    GetData() {
+        if (this.grid && this.grid.api) {
+
+            let items: Array<T> = [];
+            this.grid.api.forEachNode(function (node) {
+                items.push(node.data);
+            });
+            return items;
+
+        }
+        return null;
+    }
+
+    GetSelectedData() {
+        if (this.grid && this.grid.api) {
+            return this.grid.api.getSelectedNodes().map(n => <T>n.data)
+
+        }
+        return [];
     }
 
     OnCellContextMenu(value: ((event: CellContextMenuEvent) => void)) {
@@ -165,7 +193,7 @@ export class GridBuilder<T = any> {
         return this;
     }
 
-    WithRowSelection(value: "single" | "multiple" ) {
+    WithRowSelection(value: "single" | "multiple") {
         this.SetGridOptions({
             rowSelection: value,
             rowDeselection: value == "multiple"
@@ -174,7 +202,7 @@ export class GridBuilder<T = any> {
     }
 
     WithFullRowEditType(value?: boolean) {
-        if(value === null || value === undefined) {
+        if (value === null || value === undefined) {
             value = true;
         }
         this.SetGridOptions({
@@ -184,7 +212,7 @@ export class GridBuilder<T = any> {
     }
 
     WithShiftResizeMode(value?: boolean) {
-        if(value === null || value === undefined) {
+        if (value === null || value === undefined) {
             value = true;
         }
         this.SetGridOptions({
@@ -193,7 +221,7 @@ export class GridBuilder<T = any> {
         return this;
     }
     StopEditingWhenGridLosesFocus(value?: boolean) {
-        if(value === null || value === undefined) {
+        if (value === null || value === undefined) {
             value = true;
         }
         this.SetGridOptions({
@@ -213,7 +241,16 @@ export class GridBuilder<T = any> {
         this.SetGridOptions({
             immutableData: true
         })
-        if(getNodeId) {
+        if (getNodeId) {
+            this.SetGridOptions({
+                getRowNodeId: getNodeId
+            })
+        }
+        return this;
+    }
+
+    SetRowId(getNodeId?: (data: T) => any) {
+        if (getNodeId) {
             this.SetGridOptions({
                 getRowNodeId: getNodeId
             })

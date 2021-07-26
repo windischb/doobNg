@@ -23,7 +23,7 @@ export class DefaultContextMenuContext<T = any> implements IContextMenuContext {
         return this.SelectedCount > 0 ? this.SelectedData[0] : null;
     }
 
-    constructor(gridApi: GridApi, private mEvent: MouseEvent) {
+    constructor(private gridApi: GridApi, private mEvent: MouseEvent) {
         this._selectedData = gridApi.getSelectedNodes().map(n => n.data)
     }
 
@@ -31,4 +31,7 @@ export class DefaultContextMenuContext<T = any> implements IContextMenuContext {
         return this.mEvent.shiftKey;
     }
 
+    get GridApi() {
+        return this.gridApi;
+    }
 }
